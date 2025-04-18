@@ -3,10 +3,12 @@ import { playlists } from "./data/playlists.json";
 
 function App() {
   return (
-    <div className="flex">
+    <div className="flex w-full">
       <SidebarNavigation />
-      <div className="col-span-10 px-4">
-        <PlaylistPlayer playlist={playlists[0]} />
+      <div className="flex justify-center w-full">
+        <div className="w-4xl pt-2.5">
+          <PlaylistPlayer playlist={playlists[0]} />
+        </div>
       </div>
     </div>
   );
