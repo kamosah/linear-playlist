@@ -38,3 +38,39 @@ This project includes music from the following albums:
 
 - **"Deep House"** by _Nul Tiel Records_ is licensed under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/).
 - **"Neither and Both"** by _Brylie Christopher Oxley_ is licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
+
+--------------------------------------------------------------------------------------------------------------
+
+# TODO
+
+## Requirements
+
+- [x] play through a playlist of audio files
+- [ ] display info on the currently playing track
+- [x] supporting basic functionality
+  - [x] play/pause
+  - [x] next track
+
+## Extra Features
+
+- [ ] CSS Layout
+- [ ] Responsive
+- [ ] Accessibility
+- [ ] Test on requirements
+- [ ] Search
+- [ ] Dark mode (Linear Theme)
+- [ ] CSS Animations Framer
+- [ ] Library | Home Layout
+- [ ] Recommendation of similar music based on playing activity
+- [ ] Recently Played
+- [ ] Add playlist image icon
+- [ ] Local Storage (Playing activity)
+- [ ] Create a new playlist
+- [ ] Sort Playlists by
+- [ ] Add Song
+- [ ] Edit playlist name
+- [ ] Add song / playlist thumbnail
+- [ ] Share playlist
+- [ ] Start radio
+- [ ] Create Queue
+- [ ] Add to Queue

@@ -1,11 +1,14 @@
-import { PlaylistPlayer } from "./components";
+import { PlaylistPlayer, SidebarNavigation } from "./components";
 import { playlists } from "./data/playlists.json";
 
 function App() {
   return (
-    <>
-      <PlaylistPlayer playlist={playlists[0]} />
-    </>
+    <div className="flex">
+      <SidebarNavigation />
+      <div className="col-span-10 px-4">
+        <PlaylistPlayer playlist={playlists[0]} />
+      </div>
+    </div>
   );
 }
 

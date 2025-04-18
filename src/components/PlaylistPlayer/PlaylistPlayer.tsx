@@ -9,19 +9,8 @@ import {
   Repeat,
   SkipForward,
 } from "lucide-react";
-
-type Track = {
-  duration: number;
-  name: string;
-  url: string;
-};
-
-type Playlist = {
-  name: string;
-  artist: string;
-  year: number;
-  tracks: Track[];
-};
+import type { Playlist } from "../../types";
+import { MediaButton } from "../MediaButton";
 
 type PlaylistPlayerProps = {
   playlist: Playlist;
@@ -56,7 +45,7 @@ export const PlaylistPlayer: React.FC<PlaylistPlayerProps> = ({
   };
 
   const playNextTrack = (): void => {
-    if (repeat === 'one') {
+    if (repeat === "one") {
       // Replay the current track
       if (audioRef.current) {
         audioRef.current.currentTime = 0;
@@ -64,7 +53,7 @@ export const PlaylistPlayer: React.FC<PlaylistPlayerProps> = ({
       }
       return;
     }
-    
+
     if (shuffle) {
       // Play a random track that isn't the current one
       let nextIndex = currentTrackIndex;
@@ -76,7 +65,7 @@ export const PlaylistPlayer: React.FC<PlaylistPlayerProps> = ({
       // Play next track or loop to first
       if (currentTrackIndex < tracks.length - 1) {
         setCurrentTrackIndex(currentTrackIndex + 1);
-      } else if (repeat === 'all') {
+      } else if (repeat === "all") {
         setCurrentTrackIndex(0);
       } else {
         setIsPlaying(false);
@@ -196,47 +185,49 @@ export const PlaylistPlayer: React.FC<PlaylistPlayerProps> = ({
       </div>
 
       <div className="controls">
-        <button
+        <MediaButton
           onClick={toggleShuffle}
           className={`shuffle-button ${shuffle ? "active" : ""}`}
           aria-label="Shuffle"
           aria-pressed={shuffle}
         >
           <Shuffle />
-        </button>
+        </MediaButton>
 
-        <button
+        <MediaButton
           onClick={playPrevTrack}
           className="prev-button"
           aria-label="Previous track"
         >
           <SkipBack />
-        </button>
+        </MediaButton>
 
-        <button
+        <MediaButton
           onClick={togglePlayPause}
           className="play-pause-button"
           aria-label={isPlaying ? "Pause" : "Play"}
         >
           {isPlaying ? <Pause /> : <Play />}
-        </button>
+        </MediaButton>
 
-        <button
+        <MediaButton
           onClick={playNextTrack}
           className="next-button"
           aria-label="Next track"
         >
           <SkipForward />
-        </button>
+        </MediaButton>
 
-        <button
+        <MediaButton
           onClick={toggleRepeat}
           // TODO: Implement repeat active state
-          className={`repeat-button ${repeat !== "none" ? "active" : ""}`}
+          // className={`repeat-button ${repeat !== "none" ? "active" : ""}`}
+          className="repeat-button"
           aria-label={`Repeat ${repeat}`}
+          isActive={repeat !== "none"}
         >
           {repeat === "one" ? <Repeat1 /> : <Repeat />}
-        </button>
+        </MediaButton>
       </div>
 
       <div className="progress-container">
