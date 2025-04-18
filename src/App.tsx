@@ -1,5 +1,12 @@
+import { PlaylistPlayer } from "./components";
+import { playlists } from "./data/playlists.json";
+
 function App() {
-  return "Hello World";
+  return (
+    <>
+      <PlaylistPlayer playlist={playlists[0]} />
+    </>
+  );
 }
 
 export default App;
