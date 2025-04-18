@@ -8,7 +8,6 @@ import {
   Repeat1,
   Repeat,
   SkipForward,
-  Volume2,
 } from "lucide-react";
 
 type Track = {
