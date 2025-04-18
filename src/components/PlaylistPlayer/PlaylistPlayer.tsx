@@ -1,5 +1,16 @@
 import React, { useRef, useState, useEffect } from "react";
 
+import {
+  Play,
+  Pause,
+  Shuffle,
+  SkipBack,
+  Repeat1,
+  Repeat,
+  SkipForward,
+  Volume2,
+} from "lucide-react";
+
 type Track = {
   duration: number;
   name: string;
@@ -46,7 +57,7 @@ export const PlaylistPlayer: React.FC<PlaylistPlayerProps> = ({
   };
 
   const playNextTrack = (): void => {
-    if (repeat === "one") {
+    if (repeat === 'one') {
       // Replay the current track
       if (audioRef.current) {
         audioRef.current.currentTime = 0;
@@ -54,7 +65,7 @@ export const PlaylistPlayer: React.FC<PlaylistPlayerProps> = ({
       }
       return;
     }
-
+    
     if (shuffle) {
       // Play a random track that isn't the current one
       let nextIndex = currentTrackIndex;
@@ -63,10 +74,10 @@ export const PlaylistPlayer: React.FC<PlaylistPlayerProps> = ({
       }
       setCurrentTrackIndex(nextIndex);
     } else {
-      // Play next track or loop or first
+      // Play next track or loop to first
       if (currentTrackIndex < tracks.length - 1) {
-        setCurrentTime(currentTrackIndex + 1);
-      } else if (repeat === "all") {
+        setCurrentTrackIndex(currentTrackIndex + 1);
+      } else if (repeat === 'all') {
         setCurrentTrackIndex(0);
       } else {
         setIsPlaying(false);
@@ -192,7 +203,7 @@ export const PlaylistPlayer: React.FC<PlaylistPlayerProps> = ({
           aria-label="Shuffle"
           aria-pressed={shuffle}
         >
-          {/* TODO: Shuffle Icon */}
+          <Shuffle />
         </button>
 
         <button
@@ -200,7 +211,7 @@ export const PlaylistPlayer: React.FC<PlaylistPlayerProps> = ({
           className="prev-button"
           aria-label="Previous track"
         >
-          {/* TODO: Previous track Icon */}
+          <SkipBack />
         </button>
 
         <button
@@ -208,17 +219,24 @@ export const PlaylistPlayer: React.FC<PlaylistPlayerProps> = ({
           className="play-pause-button"
           aria-label={isPlaying ? "Pause" : "Play"}
         >
-          {/* TODO: (Pause | Play) Icons */}
-          {isPlaying ? "" : ""}
+          {isPlaying ? <Pause /> : <Play />}
+        </button>
+
+        <button
+          onClick={playNextTrack}
+          className="next-button"
+          aria-label="Next track"
+        >
+          <SkipForward />
         </button>
 
         <button
           onClick={toggleRepeat}
+          // TODO: Implement repeat active state
           className={`repeat-button ${repeat !== "none" ? "active" : ""}`}
           aria-label={`Repeat ${repeat}`}
         >
-          {/* TODO: (Repeat 1 | Repeat All) Icon */}
-          {repeat === "one" ? "" : ""}
+          {repeat === "one" ? <Repeat1 /> : <Repeat />}
         </button>
       </div>
 
