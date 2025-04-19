@@ -1,4 +1,5 @@
 import { PlaylistPlayer, SidebarNavigation } from "./components";
+import { PlayerDock } from "./components/PlayerDock";
 import { playlists } from "./data/playlists.json";
 
 function App() {
@@ -10,6 +11,7 @@ function App() {
           <PlaylistPlayer playlist={playlists[0]} />
         </div>
       </div>
+      <PlayerDock />
     </div>
   );
 }

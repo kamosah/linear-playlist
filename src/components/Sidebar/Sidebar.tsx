@@ -22,7 +22,7 @@ export const SidebarNavigation = () => {
 
         <ul className="main space-y-2 font-medium border-t border-white dark:border-gray-700 py-4">
           {playlists.map((playlist) => (
-            <li>
+            <li key={playlist.name}>
               <a
                 href="#"
                 className="group relative flex flex-col p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
