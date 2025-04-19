@@ -1,44 +1,113 @@
 import { House, Play } from "lucide-react";
 import { playlists } from "../../data/playlists.json";
+import { styled } from "styled-components";
+import { GRAY_100 } from "../../styles";
+
+const SidebarContainer = styled.aside`
+  /* TODO: Responsive */
+  border-right: 1px solid white;
+  height: 100vh;
+  width: 18rem;
+`;
+
+const SidebarSection = styled.div`
+  background-color: ${({ theme }) => theme.colors.bg};
+  height: 100%;
+  overflow-y: auto;
+  padding-bottom: 1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  width: inherit;
+`;
+
+const SidebarHead = styled.ul`
+  color: ${({ theme }) => theme.colors.text};
+  font-size: 0.875rem;
+  padding-bottom: 1rem;
+  padding-top: 1rem;
+  width: 100%;
+  display: flex;
+  :hover {
+    background-color: ${({ theme }) => theme.colors.hover};
+  }
+`;
+
+const StyledText = styled.span`
+  padding-inline-start: 0.5rem;
+`;
+
+const SidebarHeadItem = styled.li`
+  align-items: center;
+  border-radius: ${({ theme }) => theme.border.lg};
+  color: ${({ theme }) => theme.colors.text};
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  padding: 0.5rem;
+  width: 100%;
+`;
+
+const SidebarNavItem = styled.li`
+  border-radius: ${({ theme }) => theme.border.lg};
+  color: ${({ theme }) => theme.colors.text};
+  cursor: pointer;
+  padding: 0.5rem;
+  width: 100%;
+`;
+
+const SidebarNavList = styled.ul`
+  border-top: 1px solid ${GRAY_100};
+  color: ${({ theme }) => theme.colors.text};
+  font-size: 0.875rem;
+  padding-bottom: 1rem;
+  padding-top: 1rem;
+  width: 100%;
+  :hover {
+    background-color: ${({ theme }) => theme.colors.hover};
+  }
+`;
+
+const SidebarNavItemText = styled.p`
+  font-size: ${({ theme }) => theme.fontSizes.sm};
+  overflow: hidden;
+  padding-inline-start: 0.25rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`;
+
+const SidebarNavItemCaption = styled.p`
+  color: ${({ theme }) => theme.colors.muted};
+  font-size: ${({ theme }) => theme.fontSizes.xs};
+  overflow: hidden;
+  padding-inline-start: 0.25rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`;
 
 export const SidebarNavigation = () => {
   return (
-    <aside
-      className="w-2xs h-screen border-r-1 border-white"
-      aria-label="Sidebar"
-    >
-      <div className="sidebar h-full px-4 overflow-y-auto bg-gray-500 dark:bg-gray-950 w-full">
-        <ul className="space-y-2 font-medium py-4">
-          <li>
-            <a
-              href="#"
-              className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 group"
-            >
-              <House />
-              <span className="ms-3">Home</span>
-            </a>
-          </li>
-        </ul>
+    <SidebarContainer aria-label="Sidebar">
+      <SidebarSection>
+        <SidebarHead>
+          <SidebarHeadItem>
+            <House size="1em" />
+            <StyledText>Home</StyledText>
+          </SidebarHeadItem>
+        </SidebarHead>
 
-        <ul className="main space-y-2 font-medium border-t border-white dark:border-gray-700 py-4">
+        <SidebarNavList>
           {playlists.map((playlist) => (
-            <li key={playlist.name}>
-              <a
-                href="#"
-                className="group relative flex flex-col p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
-              >
-                <div className="ms-3 text-sm truncate">{playlist.name}</div>
-                <div className="ms-3 text-gray-500 text-xs truncate">
-                  {playlist.artist}
-                </div>
-                <span className="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <Play />
-                </span>
-              </a>
-            </li>
+            <SidebarNavItem className="group relative" key={playlist.name}>
+              <SidebarNavItemText>{playlist.name}</SidebarNavItemText>
+              <SidebarNavItemCaption>{playlist.artist}</SidebarNavItemCaption>
+              {/* Remove: Tailwind group hover if possible */}
+              <span className="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity">
+                <Play />
+              </span>
+            </SidebarNavItem>
           ))}
-        </ul>
-      </div>
-    </aside>
+        </SidebarNavList>
+      </SidebarSection>
+    </SidebarContainer>
   );
 };

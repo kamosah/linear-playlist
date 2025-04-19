@@ -1,10 +1,16 @@
+import { styled } from "styled-components";
 import { PlaylistPlayer, SidebarNavigation } from "./components";
 import { PlayerDock } from "./components/PlayerDock";
 import { playlists } from "./data/playlists.json";
 
-function App() {
+const AppContainer = styled.div`
+  display: flex;
+  width: 100%;
+`;
+
+export const App = () => {
   return (
-    <div className="flex w-full">
+    <AppContainer>
       <SidebarNavigation />
       <div className="flex justify-center w-full dark:bg-gray-950">
         <div className="w-4xl pt-2.5">
@@ -12,8 +18,8 @@ function App() {
         </div>
       </div>
       <PlayerDock />
-    </div>
+    </AppContainer>
   );
-}
+};
 
 export default App;
