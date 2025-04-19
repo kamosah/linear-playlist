@@ -29,9 +29,9 @@ type SearchInputProps = React.InputHTMLAttributes<HTMLInputElement> &
   VariantProps<typeof searchInput>;
 
 export const SearchInput: React.FC<SearchInputProps> = ({
-  withIcon = true,
-  size,
   className,
+  size,
+  withIcon = true,
   ...props
 }) => {
   return (

@@ -5,7 +5,7 @@ function App() {
   return (
     <div className="flex w-full">
       <SidebarNavigation />
-      <div className="flex justify-center w-full">
+      <div className="flex justify-center w-full dark:bg-gray-950">
         <div className="w-4xl pt-2.5">
           <PlaylistPlayer playlist={playlists[0]} />
         </div>

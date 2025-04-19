@@ -10,6 +10,8 @@ interface MediaButtonBaseProps {
   children: React.ReactNode;
 }
 
+const baseStyles = ["text-white"];
+
 type MediaButtonProps = MediaButtonBaseProps &
   React.ButtonHTMLAttributes<HTMLButtonElement>;
 
@@ -20,7 +22,7 @@ export const MediaButton = React.forwardRef<
   return (
     <button
       ref={ref}
-      className={clsx([isActive && "active", className])}
+      className={clsx([isActive && "active", baseStyles, className])}
       {...rest}
     >
       {children}

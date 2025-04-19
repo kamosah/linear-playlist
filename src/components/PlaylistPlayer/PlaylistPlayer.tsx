@@ -11,6 +11,8 @@ import {
 } from "lucide-react";
 import type { Playlist } from "../../types";
 import { MediaButton } from "../MediaButton";
+import { PlaylistList } from "../PlaylistList";
+import { formatTime } from "../../utils";
 
 type PlaylistPlayerProps = {
   playlist: Playlist;
@@ -110,13 +112,6 @@ export const PlaylistPlayer: React.FC<PlaylistPlayerProps> = ({
     }
   };
 
-  // Formate time to MM:SS (same as basic audio player
-  const formatTime = (time: number): string => {
-    const minutes = Math.floor(time / 60);
-    const seconds = Math.floor(time % 60);
-    return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
-  };
-
   // Progress bar change handle (same as basic audio player)
   const handleProgressChange = (
     e: React.ChangeEvent<HTMLInputElement>
@@ -177,7 +172,7 @@ export const PlaylistPlayer: React.FC<PlaylistPlayerProps> = ({
     <div className="playlist-player">
       <audio ref={audioRef} src={currentTrack.url} preload="metadata" />
 
-      <div className="now-playing">
+      <div className="now-playing text-white">
         <div className="track-info">
           <h3 className="title">{currentTrack.name}</h3>
           <p className="artist">{playlist.artist}</p>
@@ -244,7 +239,7 @@ export const PlaylistPlayer: React.FC<PlaylistPlayerProps> = ({
         <span className="duration">{formatTime(duration)}</span>
       </div>
 
-      <div className="playlist">
+      {/* <div className="playlist">
         <h4>Playlist ({tracks.length} tracks)</h4>
         <ul className="track-list">
           {tracks.map((track, index) => (
@@ -263,7 +258,13 @@ export const PlaylistPlayer: React.FC<PlaylistPlayerProps> = ({
             </li>
           ))}
         </ul>
-      </div>
+      </div> */}
+      <PlaylistList
+        artist={playlist.artist}
+        name={playlist.name}
+        tracks={playlist.tracks}
+        year={playlist.year}
+      />
     </div>
   );
 };
