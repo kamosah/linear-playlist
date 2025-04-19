@@ -43,7 +43,7 @@ const SidebarHeadItem = styled.li`
   cursor: pointer;
   display: flex;
   flex-direction: row;
-  padding: 0.5rem;
+  padding: 1rem;
   width: 100%;
 `;
 
@@ -51,7 +51,7 @@ const SidebarNavItem = styled.li`
   border-radius: ${({ theme }) => theme.border.lg};
   color: ${({ theme }) => theme.colors.text};
   cursor: pointer;
-  padding: 0.5rem;
+  padding: 0.5rem 1rem;
   width: 100%;
 `;
 
@@ -70,7 +70,6 @@ const SidebarNavList = styled.ul`
 const SidebarNavItemText = styled.p`
   font-size: ${({ theme }) => theme.fontSizes.sm};
   overflow: hidden;
-  padding-inline-start: 0.25rem;
   text-overflow: ellipsis;
   white-space: nowrap;
 `;
@@ -79,7 +78,6 @@ const SidebarNavItemCaption = styled.p`
   color: ${({ theme }) => theme.colors.muted};
   font-size: ${({ theme }) => theme.fontSizes.xs};
   overflow: hidden;
-  padding-inline-start: 0.25rem;
   text-overflow: ellipsis;
   white-space: nowrap;
 `;
