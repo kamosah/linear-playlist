@@ -24,9 +24,12 @@ export const DARK_THEME = {
     xl: "0.75rem",
   },
   spacing: {
-    sm: "0.375rem 0.75rem",
-    md: "0.5rem 1rem",
-    lg: "0.75rem 1.5rem",
+    xxs: "0.25rem",
+    xs: "0.5rem",
+    sm: "0.75rem",
+    md: "1rem",
+    lg: "1.25rem",
+    xl: "1.5rem",
   },
   fontSizes: {
     xs: "0.75rem",

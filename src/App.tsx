@@ -1,36 +1,26 @@
-import { styled } from "styled-components";
-import { PlaylistPlayer, SidebarNavigation } from "./components";
-import { DOCK_HEIGHT, PlayerDock } from "./components/PlayerDock";
-import { playlists } from "./data/playlists.json";
-import { PlaylistContextProvider } from "./context";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { Home, Layout, Playlist } from "./components/Routes";
 
-const AppContainer = styled.div`
-  display: flex;
-  height: 100vh;
-  width: 100%;
-`;
-
-const MainContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  padding-bottom: calc(${DOCK_HEIGHT} + 1.5rem);
-  padding-top: 1.5rem;
-  width: 100%;
-`;
+// Create the router configuration
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Layout />, // Layout route with Sidebar and Main Content
+    children: [
+      {
+        index: true, // Default route for the home page
+        element: <Home />,
+      },
+      {
+        path: "playlist/:id",
+        element: <Playlist />,
+      },
+    ],
+  },
+]);
 
 export const App = () => {
-  return (
-    <PlaylistContextProvider>
-      <AppContainer>
-        <SidebarNavigation />
-        <MainContainer>
-          <PlaylistPlayer playlist={playlists[0]} />
-        </MainContainer>
-        {/* TODO: Add global state info with hooks */}
-        <PlayerDock />
-      </AppContainer>
-    </PlaylistContextProvider>
-  );
+  return <RouterProvider router={router} />;
 };
 
 export default App;

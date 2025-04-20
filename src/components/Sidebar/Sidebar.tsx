@@ -2,6 +2,7 @@ import { House, Play } from "lucide-react";
 import { playlists } from "../../data/playlists.json";
 import { styled } from "styled-components";
 import { GRAY_100, GRAY_500 } from "../../styles";
+import { Link } from "react-router-dom";
 
 const SidebarContainer = styled.aside`
   /* TODO: Responsive */
@@ -20,29 +21,23 @@ const SidebarSection = styled.div`
   width: inherit;
 `;
 
-const SidebarHead = styled.ul`
+const SidebarHeadList = styled.ul`
   color: ${({ theme }) => theme.colors.text};
   font-size: 0.875rem;
   padding-bottom: 1rem;
   padding-top: 1rem;
   width: 100%;
-  display: flex;
   :hover {
     background-color: ${({ theme }) => theme.colors.hover};
   }
 `;
 
-const StyledText = styled.span`
-  padding-inline-start: 0.5rem;
-`;
-
 const SidebarHeadItem = styled.li`
-  align-items: center;
   border-radius: ${({ theme }) => theme.border.lg};
   color: ${({ theme }) => theme.colors.text};
   cursor: pointer;
-  display: flex;
-  flex-direction: row;
+  font-size: ${({ theme }) => theme.fontSizes.sm};
+  padding-inline-start: ${({ theme }) => theme.spacing.xs};
   padding: 1rem;
   width: 100%;
 `;
@@ -82,26 +77,48 @@ const SidebarNavItemCaption = styled.p`
   white-space: nowrap;
 `;
 
+const StyledHeaderText = styled.span`
+  font-size: 1em;
+  margin-left: ${({ theme }) => theme.spacing.xs};
+`;
+
+const SidebarHeadItemWrapper = styled.div`
+  align-items: center;
+  display: flex;
+`;
+
 export const SidebarNavigation = () => {
   return (
     <SidebarContainer aria-label="Sidebar">
       <SidebarSection>
-        <SidebarHead>
+        <SidebarHeadList>
           <SidebarHeadItem>
-            <House size="1em" />
-            <StyledText>Home</StyledText>
+            <Link to="/">
+              <SidebarHeadItemWrapper>
+                <House
+                  style={{
+                    display: "inline",
+                    fontSize: "0.875rem",
+                  }}
+                  size="1em"
+                />
+                <StyledHeaderText>Home</StyledHeaderText>
+              </SidebarHeadItemWrapper>
+            </Link>
           </SidebarHeadItem>
-        </SidebarHead>
+        </SidebarHeadList>
 
         <SidebarNavList>
           {playlists.map((playlist) => (
-            <SidebarNavItem className="group relative" key={playlist.name}>
-              <SidebarNavItemText>{playlist.name}</SidebarNavItemText>
-              <SidebarNavItemCaption>{playlist.artist}</SidebarNavItemCaption>
-              {/* Remove: Tailwind group hover if possible */}
-              <span className="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity">
-                <Play />
-              </span>
+            <SidebarNavItem className="group relative" key={playlist.ID}>
+              <Link to={`/playlist/${playlist.ID}`}>
+                <SidebarNavItemText>{playlist.name}</SidebarNavItemText>
+                <SidebarNavItemCaption>{playlist.artist}</SidebarNavItemCaption>
+                {/* Remove: Tailwind group hover if possible */}
+                <span className="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <Play />
+                </span>
+              </Link>
             </SidebarNavItem>
           ))}
         </SidebarNavList>
