@@ -1,47 +1,26 @@
 import { useState } from "react";
-import { DEFAULT_STATE, PlaylistContext } from "./PlaylistContext";
+import { DEFAULT_PLAYLIST_STATE, PlaylistContext } from "./PlaylistContext";
 
 export const PlaylistContextProvider: React.FC<{
   children: React.ReactNode;
 }> = ({ children }) => {
   const [playlistIndex, setPlaylistIndex] = useState<number>(
-    DEFAULT_STATE.playlistIndex
+    DEFAULT_PLAYLIST_STATE.playlistIndex
   );
-  const [songIndex, setSongIndex] = useState<number>(DEFAULT_STATE.songIndex);
-
-  // Player State
-  const [isPlaying, setIsPlaying] = useState<boolean>(DEFAULT_STATE.isPlaying);
-  const [currentTime, setCurrentTime] = useState<number>(
-    DEFAULT_STATE.currentTime
+  const [songIndex, setSongIndex] = useState<number>(
+    DEFAULT_PLAYLIST_STATE.songIndex
   );
-  const [duration, setDuration] = useState<number>(DEFAULT_STATE.duration);
-  const [currentTrackIndex, setCurrentTrackIndex] = useState<number>(
-    DEFAULT_STATE.currentTrackIndex
-  );
-  const [shuffle, setShuffle] = useState<boolean>(DEFAULT_STATE.shuffle);
-  const [repeat, setRepeat] = useState<"none" | "all" | "one">(
-    DEFAULT_STATE.repeat
-  );
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [playlists, _] = useState(DEFAULT_PLAYLIST_STATE.playlists);
 
   return (
     <PlaylistContext.Provider
       value={{
         playlistIndex,
+        playlists,
         setPlaylistIndex,
         setSongIndex,
         songIndex,
-        isPlaying,
-        setIsPlaying,
-        currentTime,
-        setCurrentTime,
-        duration,
-        setDuration,
-        currentTrackIndex,
-        setCurrentTrackIndex,
-        shuffle,
-        setShuffle,
-        repeat,
-        setRepeat,
       }}
     >
       {children}

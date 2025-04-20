@@ -1,8 +1,5 @@
 import { useContext } from "react";
-import {
-  PlaylistContext,
-  PlaylistContextValue,
-} from "../context/PlaylistContext";
+import { PlaylistContext, PlaylistContextValue } from "../context";
 
 export const usePlaylist = (): PlaylistContextValue => {
   const context = useContext(PlaylistContext);
