@@ -1,8 +1,8 @@
 import { House, Play } from "lucide-react";
 import { playlists } from "../../data/playlists.json";
 import { styled } from "styled-components";
-import { GRAY_100, GRAY_500 } from "../../styles";
-import { Link } from "react-router-dom";
+import { GRAY_100, GRAY_500, GRAY_800 } from "../../styles";
+import { Link, useParams } from "react-router-dom";
 
 const SidebarContainer = styled.aside`
   /* TODO: Responsive */
@@ -27,9 +27,6 @@ const SidebarHeadList = styled.ul`
   padding-bottom: 1rem;
   padding-top: 1rem;
   width: 100%;
-  :hover {
-    background-color: ${({ theme }) => theme.colors.hover};
-  }
 `;
 
 const SidebarHeadItem = styled.li`
@@ -40,14 +37,21 @@ const SidebarHeadItem = styled.li`
   padding-inline-start: ${({ theme }) => theme.spacing.xs};
   padding: 1rem;
   width: 100%;
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.hover};
+  }
 `;
 
-const SidebarNavItem = styled.li`
+const SidebarNavItem = styled.li<{ $isActive: boolean }>`
+  background-color: ${({ $isActive }) => $isActive && GRAY_800};
   border-radius: ${({ theme }) => theme.border.lg};
   color: ${({ theme }) => theme.colors.text};
   cursor: pointer;
   padding: 0.5rem 1rem;
   width: 100%;
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.hover};
+  }
 `;
 
 const SidebarNavList = styled.ul`
@@ -57,9 +61,6 @@ const SidebarNavList = styled.ul`
   padding-bottom: 1rem;
   padding-top: 1rem;
   width: 100%;
-  :hover {
-    background-color: ${({ theme }) => theme.colors.hover};
-  }
 `;
 
 const SidebarNavItemText = styled.p`
@@ -88,6 +89,7 @@ const SidebarHeadItemWrapper = styled.div`
 `;
 
 export const SidebarNavigation = () => {
+  const { id } = useParams() as { id: string };
   return (
     <SidebarContainer aria-label="Sidebar">
       <SidebarSection>
@@ -110,7 +112,11 @@ export const SidebarNavigation = () => {
 
         <SidebarNavList>
           {playlists.map((playlist) => (
-            <SidebarNavItem className="group relative" key={playlist.ID}>
+            <SidebarNavItem
+              key={playlist.ID}
+              $isActive={+id === playlist.ID}
+              className="group relative"
+            >
               <Link to={`/playlist/${playlist.ID}`}>
                 <SidebarNavItemText>{playlist.name}</SidebarNavItemText>
                 <SidebarNavItemCaption>{playlist.artist}</SidebarNavItemCaption>

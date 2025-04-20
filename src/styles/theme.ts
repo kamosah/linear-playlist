@@ -13,7 +13,7 @@ export const DARK_THEME = {
   colors: {
     badge: "#1e293b",
     bg: GRAY_950,
-    hover: GRAY_800,
+    hover: GRAY_700,
     muted: GRAY_500,
     secondary: "#6366f1",
     surface: "#1e293b",
