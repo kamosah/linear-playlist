@@ -1,11 +1,11 @@
 import { House, Play } from "lucide-react";
 import { playlists } from "../../data/playlists.json";
 import { styled } from "styled-components";
-import { GRAY_100 } from "../../styles";
+import { GRAY_100, GRAY_500 } from "../../styles";
 
 const SidebarContainer = styled.aside`
   /* TODO: Responsive */
-  border-right: 1px solid white;
+  border-right: 1px solid ${GRAY_500};
   height: 100vh;
   width: 18rem;
 `;

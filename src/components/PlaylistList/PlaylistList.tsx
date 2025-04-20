@@ -3,6 +3,7 @@ import type { Playlist, Track } from "../../types";
 import { formatTime } from "../../utils";
 import { styled } from "styled-components";
 import { useState } from "react";
+import { DOCK_HEIGHT } from "../PlayerDock";
 
 type PlaylistItem = {
   artist: string;
@@ -45,6 +46,9 @@ const CenteredItem = styled.div`
 `;
 
 const PlaylistListContainer = styled.ul`
+  max-height: calc(100vh - ${DOCK_HEIGHT} - 14rem);
+  overflow-y: scroll;
+  padding: 1rem 0rem;
   width: 100%;
 `;
 
@@ -52,7 +56,6 @@ export const PlaylistListItem: React.FC<PlaylistItem> = ({
   artist,
   duration,
   name,
-  url,
 }) => {
   const [hover, setHover] = useState(false);
   return (
