@@ -74,3 +74,4 @@ This project includes music from the following albums:
 - [ ] Start radio
 - [ ] Create Queue
 - [ ] Add to Queue
+- [ ] Framer Motion - Animations
