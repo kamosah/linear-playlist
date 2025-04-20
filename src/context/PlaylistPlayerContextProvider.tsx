@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
   DEFAULT_PLAYLIST_PLAYER_STATE,
   PlaylistPlayerContext,
@@ -25,22 +25,49 @@ export const PlaylistPlayerContextProvider: React.FC<{
   const [repeat, setRepeat] = useState<"none" | "all" | "one">(
     DEFAULT_PLAYLIST_PLAYER_STATE.repeat
   );
+  const audioRef = useRef<HTMLAudioElement>(null);
+  const play = (): void => {
+    if (audioRef.current) {
+      audioRef.current.play();
+      setIsPlaying(true);
+    }
+  };
+  const pause = (): void => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      setIsPlaying(false);
+    }
+  };
+  const togglePlayPause = (): void => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play();
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
 
   return (
     <PlaylistPlayerContext.Provider
       value={{
-        isPlaying,
-        setIsPlaying,
         currentTime,
-        setCurrentTime,
-        duration,
-        setDuration,
         currentTrackIndex,
-        setCurrentTrackIndex,
-        shuffle,
-        setShuffle,
+        duration,
+        isPlaying,
         repeat,
+        setCurrentTime,
+        setCurrentTrackIndex,
+        setDuration,
+        setIsPlaying,
         setRepeat,
+        setShuffle,
+        shuffle,
+        togglePlayPause,
+        audioRef,
+        play,
+        pause,
       }}
     >
       {children}

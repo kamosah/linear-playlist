@@ -5,18 +5,18 @@ import DATA from "../data/playlists.json";
 type DispatchFunction<T> = React.Dispatch<React.SetStateAction<T>>;
 
 export type PlaylistContextValue = {
-  playlistIndex: number;
-  songIndex: number;
+  playlistID: number;
+  currentTrackIndex: number;
   playlists: Playlist[];
-  setPlaylistIndex: DispatchFunction<number>;
-  setSongIndex: DispatchFunction<number>;
+  setPlaylistID: DispatchFunction<number>;
+  setCurrentTrackIndex: DispatchFunction<number>;
 };
 
 export const DEFAULT_PLAYLIST_STATE = {
-  playlistIndex: 0,
+  playlistID: 1,
   playlists: DATA.playlists,
-  songIndex: 0,
-};
+  currentTrackIndex: 0,
+} as const;
 
 // Create the context with an empty default value
 export const PlaylistContext = createContext<PlaylistContextValue | undefined>(

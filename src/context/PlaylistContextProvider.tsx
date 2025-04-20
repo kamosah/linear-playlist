@@ -4,11 +4,11 @@ import { DEFAULT_PLAYLIST_STATE, PlaylistContext } from "./PlaylistContext";
 export const PlaylistContextProvider: React.FC<{
   children: React.ReactNode;
 }> = ({ children }) => {
-  const [playlistIndex, setPlaylistIndex] = useState<number>(
-    DEFAULT_PLAYLIST_STATE.playlistIndex
+  const [playlistID, setPlaylistID] = useState<number>(
+    DEFAULT_PLAYLIST_STATE.playlistID
   );
-  const [songIndex, setSongIndex] = useState<number>(
-    DEFAULT_PLAYLIST_STATE.songIndex
+  const [currentTrackIndex, setCurrentTrackIndex] = useState<number>(
+    DEFAULT_PLAYLIST_STATE.currentTrackIndex
   );
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [playlists, _] = useState(DEFAULT_PLAYLIST_STATE.playlists);
@@ -16,11 +16,11 @@ export const PlaylistContextProvider: React.FC<{
   return (
     <PlaylistContext.Provider
       value={{
-        playlistIndex,
+        playlistID,
         playlists,
-        setPlaylistIndex,
-        setSongIndex,
-        songIndex,
+        setPlaylistID,
+        setCurrentTrackIndex,
+        currentTrackIndex,
       }}
     >
       {children}

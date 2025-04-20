@@ -1,9 +1,8 @@
 import { styled } from "styled-components";
-import { DOCK_HEIGHT } from "../../PlayerDock";
-import { PlaylistPlayerContextProvider } from "../../../context";
+import { DOCK_HEIGHT, PlayerDock } from "../../PlayerDock";
 import { SidebarNavigation } from "../../Sidebar";
 import { Outlet } from "react-router-dom";
-import { PlaylistContextProvider } from "../../../context/PlaylistContextProvider";
+import { usePlaylist } from "../../../hooks";
 
 const AppContainer = styled.div`
   display: flex;
@@ -21,15 +20,12 @@ const MainContainer = styled.div`
 
 export const Layout = () => {
   return (
-    <PlaylistPlayerContextProvider>
-      <PlaylistContextProvider>
-        <AppContainer>
-          <SidebarNavigation />
-          <MainContainer>
-            <Outlet />
-          </MainContainer>
-        </AppContainer>
-      </PlaylistContextProvider>
-    </PlaylistPlayerContextProvider>
+    <AppContainer>
+      <SidebarNavigation />
+      <MainContainer>
+        <Outlet />
+      </MainContainer>
+      <PlayerDock />
+    </AppContainer>
   );
 };

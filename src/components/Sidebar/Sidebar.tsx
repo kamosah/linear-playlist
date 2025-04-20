@@ -3,6 +3,7 @@ import { playlists } from "../../data/playlists.json";
 import { styled } from "styled-components";
 import { GRAY_100, GRAY_500, GRAY_800 } from "../../styles";
 import { Link, useParams } from "react-router-dom";
+import { usePlaylist, usePlaylistPlayer } from "../../hooks";
 
 const SidebarContainer = styled.aside`
   /* TODO: Responsive */
@@ -90,6 +91,9 @@ const SidebarHeadItemWrapper = styled.div`
 
 export const SidebarNavigation = () => {
   const { id } = useParams() as { id: string };
+  const { setPlaylistID, playlistID } = usePlaylist();
+  const { play, setCurrentTrackIndex, setCurrentTime, togglePlayPause } =
+    usePlaylistPlayer();
   return (
     <SidebarContainer aria-label="Sidebar">
       <SidebarSection>
@@ -117,12 +121,26 @@ export const SidebarNavigation = () => {
               $isActive={+id === playlist.id}
               className="group relative"
             >
-              <Link to={`/playlist/${playlist.id}`}>
+              <Link
+                to={`/playlist/${playlist.id}`}
+                onClick={() => setPlaylistID(playlist.id)}
+              >
                 <SidebarNavItemText>{playlist.name}</SidebarNavItemText>
                 <SidebarNavItemCaption>{playlist.artist}</SidebarNavItemCaption>
                 {/* Remove: Tailwind group hover if possible */}
                 <span className="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <Play />
+                  <Play
+                    onClick={() => {
+                      if (playlistID !== playlist.id) {
+                        setPlaylistID(playlist.id);
+                        setCurrentTime(0);
+                        setCurrentTrackIndex(0);
+                      } else {
+                        togglePlayPause();
+                      }
+                      play();
+                    }}
+                  />
                 </span>
               </Link>
             </SidebarNavItem>

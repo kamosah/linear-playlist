@@ -4,6 +4,7 @@ import { formatTime } from "../../utils";
 import { styled } from "styled-components";
 import { useState } from "react";
 import { DOCK_HEIGHT } from "../PlayerDock";
+import { usePlaylist, usePlaylistPlayer } from "../../hooks";
 
 type PlaylistItem = {
   artist: string;
@@ -52,11 +53,9 @@ const PlaylistListContainer = styled.ul`
   width: 100%;
 `;
 
-export const PlaylistListItem: React.FC<PlaylistItem> = ({
-  artist,
-  duration,
-  name,
-}) => {
+export const PlaylistListItem: React.FC<
+  PlaylistItem & { togglePlay: () => void }
+> = ({ artist, duration, name, togglePlay }) => {
   const [hover, setHover] = useState(false);
   return (
     <PlaylistItemContainer
@@ -70,19 +69,56 @@ export const PlaylistListItem: React.FC<PlaylistItem> = ({
       </PlaylistItemInfo>
       <PlaylistItemDuration>
         <CenteredItem>
-          {hover ? <CirclePlay /> : formatTime(duration)}
+          {hover ? (
+            <CirclePlay
+              onClick={() => {
+                togglePlay();
+              }}
+            />
+          ) : (
+            formatTime(duration)
+          )}
         </CenteredItem>
       </PlaylistItemDuration>
     </PlaylistItemContainer>
   );
 };
 
-export const PlaylistList: React.FC<Playlist> = ({ artist, tracks }) => {
+export const PlaylistList: React.FC<Playlist> = ({ artist, tracks, id }) => {
+  const { playlistID, setPlaylistID, setCurrentTrackIndex } = usePlaylist();
+  const {
+    togglePlayPause,
+    currentTrackIndex,
+    isPlaying,
+    play,
+    setCurrentTime,
+  } = usePlaylistPlayer();
   return (
     <PlaylistListContainer>
-      {tracks.map((track) => (
-        <PlaylistListItem key={track.id} artist={artist} {...track} />
-      ))}
+      {tracks.map((track, trackIndex) => {
+        const togglePlay = () => {
+          if (
+            playlistID === id &&
+            currentTrackIndex === trackIndex &&
+            isPlaying
+          ) {
+            togglePlayPause();
+          } else {
+            setPlaylistID(id);
+            setCurrentTrackIndex(trackIndex);
+            setCurrentTime(0);
+            play();
+          }
+        };
+        return (
+          <PlaylistListItem
+            togglePlay={togglePlay}
+            key={track.id}
+            artist={artist}
+            {...track}
+          />
+        );
+      })}
     </PlaylistListContainer>
   );
 };

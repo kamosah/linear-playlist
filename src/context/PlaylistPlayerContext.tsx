@@ -18,10 +18,14 @@ export type PlaylistPlayerContextValue = {
   setShuffle: DispatchFunction<boolean>;
   repeat: Repeat;
   setRepeat: DispatchFunction<Repeat>;
+  togglePlayPause: () => void;
+  audioRef: React.RefObject<HTMLAudioElement>;
+  play: () => void;
+  pause: () => void;
 };
 
 export const DEFAULT_PLAYLIST_PLAYER_STATE = {
-  playlistIndex: 0,
+  playlistID: 1,
   songIndex: 0,
   isPlaying: false,
   currentTime: 0,

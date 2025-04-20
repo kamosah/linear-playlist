@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import {
   Captions,
@@ -14,9 +14,8 @@ import {
   Volume2,
 } from "lucide-react";
 import { GRAY_700, GRAY_800 } from "../../styles";
-import { Playlist } from "../../types";
-import MOCK_DATA from "../../data/playlists.json";
 import { formatTime } from "../../utils";
+import { usePlaylist, usePlaylistPlayer } from "../../hooks";
 
 export const DOCK_HEIGHT = "6rem";
 
@@ -144,37 +143,26 @@ const StyledRange = styled.input`
   }
 `;
 
-type PlaylistPlayerProps = {
-  playlist: Playlist;
-  initialTrackIndex?: number;
-};
-
-export const PlayerDock: React.FC<PlaylistPlayerProps> = ({
-  playlist = MOCK_DATA.playlists[0],
-  initialTrackIndex = 0,
-}) => {
+export const PlayerDock: React.FC = () => {
+  const { playlistID = 1, playlists, currentTrackIndex = 0 } = usePlaylist();
+  const {
+    isPlaying,
+    repeat,
+    setIsPlaying,
+    shuffle,
+    setShuffle,
+    setCurrentTrackIndex,
+    setRepeat,
+    setCurrentTime,
+    setDuration,
+    currentTime,
+    duration,
+    audioRef,
+    togglePlayPause,
+  } = usePlaylistPlayer();
+  const playlist = playlists.find((pl) => pl.id == playlistID)!;
   const { tracks } = playlist;
-  const audioRef = useRef<HTMLAudioElement>(null);
-  const [isPlaying, setIsPlaying] = useState<boolean>(false);
-  const [currentTime, setCurrentTime] = useState<number>(0);
-  const [duration, setDuration] = useState<number>(0);
-  const [currentTrackIndex, setCurrentTrackIndex] =
-    useState<number>(initialTrackIndex);
-  const [shuffle, setShuffle] = useState<boolean>(false);
-  const [repeat, setRepeat] = useState<"none" | "all" | "one">("none");
-
   const currentTrack = tracks[currentTrackIndex];
-
-  const togglePlayPause = (): void => {
-    if (audioRef.current) {
-      if (isPlaying) {
-        audioRef.current.pause();
-      } else {
-        audioRef.current.play();
-      }
-      setIsPlaying(!isPlaying);
-    }
-  };
 
   const playNextTrack = (): void => {
     if (repeat === "one") {
