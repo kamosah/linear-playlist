@@ -77,11 +77,11 @@ export const PlaylistListItem: React.FC<PlaylistItem> = ({
   );
 };
 
-export const PlaylistList: React.FC<Playlist> = ({ name: artist, tracks }) => {
+export const PlaylistList: React.FC<Playlist> = ({ artist, tracks }) => {
   return (
     <PlaylistListContainer>
       {tracks.map((track) => (
-        <PlaylistListItem key={track.name} artist={artist} {...track} />
+        <PlaylistListItem key={track.id} artist={artist} {...track} />
       ))}
     </PlaylistListContainer>
   );

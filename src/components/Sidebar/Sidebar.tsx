@@ -113,11 +113,11 @@ export const SidebarNavigation = () => {
         <SidebarNavList>
           {playlists.map((playlist) => (
             <SidebarNavItem
-              key={playlist.ID}
-              $isActive={+id === playlist.ID}
+              key={playlist.id}
+              $isActive={+id === playlist.id}
               className="group relative"
             >
-              <Link to={`/playlist/${playlist.ID}`}>
+              <Link to={`/playlist/${playlist.id}`}>
                 <SidebarNavItemText>{playlist.name}</SidebarNavItemText>
                 <SidebarNavItemCaption>{playlist.artist}</SidebarNavItemCaption>
                 {/* Remove: Tailwind group hover if possible */}
