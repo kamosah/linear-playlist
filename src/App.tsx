@@ -2,6 +2,7 @@ import { styled } from "styled-components";
 import { PlaylistPlayer, SidebarNavigation } from "./components";
 import { DOCK_HEIGHT, PlayerDock } from "./components/PlayerDock";
 import { playlists } from "./data/playlists.json";
+import { PlaylistContextProvider } from "./context";
 
 const AppContainer = styled.div`
   display: flex;
@@ -19,14 +20,16 @@ const MainContainer = styled.div`
 
 export const App = () => {
   return (
-    <AppContainer>
-      <SidebarNavigation />
-      <MainContainer>
-        <PlaylistPlayer playlist={playlists[0]} />
-      </MainContainer>
-      {/* TODO: Add global state info with hooks */}
-      <PlayerDock />
-    </AppContainer>
+    <PlaylistContextProvider>
+      <AppContainer>
+        <SidebarNavigation />
+        <MainContainer>
+          <PlaylistPlayer playlist={playlists[0]} />
+        </MainContainer>
+        {/* TODO: Add global state info with hooks */}
+        <PlayerDock />
+      </AppContainer>
+    </PlaylistContextProvider>
   );
 };
 
