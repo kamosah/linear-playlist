@@ -9,15 +9,16 @@ type PlaylistItem = {
 } & Track;
 
 const PlaylistItemContainer = styled.li`
+  border-radius: ${({ theme }) => theme.border.lg};
+  color: ${({ theme }) => theme.colors.text};
+  cursor: pointer;
   display: grid;
   grid-template-columns: 11fr 1fr;
+  padding: 0.5rem 1rem;
   position: relative;
-  color: ${({ theme }) => theme.colors.text};
-  border-radius: ${({ theme }) => theme.border.lg};
   &:hover {
     background-color: ${({ theme }) => theme.colors.hover};
   }
-  padding: 0.5rem 1rem;
 `;
 const PlaylistItemInfo = styled.div`
   display: grid;
@@ -25,9 +26,10 @@ const PlaylistItemInfo = styled.div`
 `;
 
 const PlaylistItemSong = styled.p``;
+
 const PlaylistItemPlaylistName = styled.p`
-  font-size: ${({ theme }) => theme.fontSizes.xs};
   color: ${({ theme }) => theme.colors.muted};
+  font-size: ${({ theme }) => theme.fontSizes.xs};
 `;
 
 const PlaylistItemDuration = styled.div`
@@ -39,6 +41,10 @@ const CenteredItem = styled.div`
   align-items: center;
   display: flex;
   justify-content: flex-end;
+  width: 100%;
+`;
+
+const PlaylistListContainer = styled.ul`
   width: 100%;
 `;
 
@@ -67,10 +73,6 @@ export const PlaylistListItem: React.FC<PlaylistItem> = ({
     </PlaylistItemContainer>
   );
 };
-
-const PlaylistListContainer = styled.ul`
-  width: 100%;
-`;
 
 export const PlaylistList: React.FC<Playlist> = ({ name: artist, tracks }) => {
   return (
