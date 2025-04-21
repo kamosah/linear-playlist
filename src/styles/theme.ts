@@ -1,4 +1,5 @@
 export const GRAY_100 = "oklch(96.7% 0.003 264.542)";
+export const GRAY_200 = "oklch(92.8% 0.006 264.531)";
 export const GRAY_300 = "oklch(87.2% 0.01 258.338)";
 export const GRAY_400 = "oklch(70.7% 0.022 261.325)";
 export const GRAY_500 = "oklch(55.1% 0.027 264.364)";

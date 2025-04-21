@@ -1,38 +1,67 @@
+import { styled } from "styled-components";
 import type { Playlist } from "../../types";
+import {
+  GRAY_100,
+  GRAY_200,
+  GRAY_300,
+  GRAY_400,
+  GRAY_700,
+  GRAY_800,
+} from "../../styles";
+import { Link } from "react-router-dom";
 
-type PlaylistCardProps = {
-  playlists?: Playlist[];
-};
+const PlaylistCardContainer = styled.div`
+  /* TODO: Theme dependent */
+  background-color: ${GRAY_800};
+  border-color: ${GRAY_700};
+  border-radius: ${({ theme }) => theme.border.lg};
+  border: ${GRAY_200};
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  width: 100%;
+`;
 
-export const PlayCard = () => {
-  return (
-    <>
-      <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
-        <a href="#">
-          <img
-            className="rounded-t-lg"
-            src="/docs/images/blog/image-1.jpg"
-            alt=""
-          />
-        </a>
-        <div className="p-5">
-          <a href="#">
-            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-              Noteworthy technology acquisitions 2021
-            </h5>
-          </a>
-          <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-            Here are the biggest enterprise technology acquisitions of 2021 so
-            far, in reverse chronological order.
-          </p>
-        </div>
-      </div>
-    </>
-  );
-};
+const PlaylistName = styled.h5`
+  color: ${GRAY_100};
+  font-size: 1.5rem;
+  font-weight: 700;
+  padding-bottom: 0.5rem;
+`;
 
-export const PlaylistCard: React.FC<PlaylistCardProps> = ({
-  playlists = [],
+const PlaylistArtist = styled.p`
+  color: ${GRAY_300};
+  padding-bottom: ${({ theme }) => theme.spacing.sm};
+`;
+
+const PlaylistStats = styled.p`
+  font-size: 1rem;
+  color: ${GRAY_400};
+`;
+
+const PlaylistCardWrapper = styled.div`
+  padding: 1.25rem;
+`;
+
+export const PlaylistCard: React.FC<Playlist> = ({
+  artist,
+  name,
+  tracks,
+  id,
 }) => {
-  return playlists.map((playlist) => <PlayCard key={playlist.name} />);
+  const totalDuration = tracks.reduce(
+    (prev, track) => prev + track.duration,
+    0
+  );
+  return (
+    <PlaylistCardContainer>
+      <Link to={`playlist/${id}`}>
+        <PlaylistCardWrapper>
+          <PlaylistName>{name}</PlaylistName>
+          <PlaylistArtist>{artist}</PlaylistArtist>
+          <PlaylistStats>
+            {tracks.length} Songs • {Math.ceil(totalDuration / 60)} min
+          </PlaylistStats>
+        </PlaylistCardWrapper>
+      </Link>
+    </PlaylistCardContainer>
+  );
 };
