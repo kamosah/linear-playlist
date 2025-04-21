@@ -1,10 +1,10 @@
-import { CirclePlay } from "lucide-react";
+import { PauseCircle, PlayCircle, Volume2 } from "lucide-react";
 import type { Playlist, Track } from "../../types";
 import { formatTime } from "../../utils";
 import { styled } from "styled-components";
 import { useState } from "react";
 import { DOCK_HEIGHT } from "../PlayerDock";
-import { usePlaylist, usePlaylistPlayer } from "../../hooks";
+import { useAudioPlayer, usePlaylist } from "../../hooks";
 
 type PlaylistItem = {
   artist: string;
@@ -54,12 +54,27 @@ const PlaylistListContainer = styled.ul`
 `;
 
 export const PlaylistListItem: React.FC<
-  PlaylistItem & { togglePlay: () => void }
-> = ({ artist, duration, name, togglePlay }) => {
+  PlaylistItem & { togglePlay: () => void; isPlayingCurrentTrack: boolean }
+> = ({ artist, duration, name, togglePlay, isPlayingCurrentTrack }) => {
   const [hover, setHover] = useState(false);
+
+  const displayAction = () => {
+    if (hover) {
+      if (isPlayingCurrentTrack) {
+        return <PauseCircle onClick={togglePlay} />;
+      } else {
+        return <PlayCircle onClick={togglePlay} />;
+      }
+    } else {
+      if (isPlayingCurrentTrack) {
+        return <Volume2 />;
+      } else {
+        return formatTime(duration);
+      }
+    }
+  };
   return (
     <PlaylistItemContainer
-      className="group"
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
     >
@@ -68,46 +83,25 @@ export const PlaylistListItem: React.FC<
         <PlaylistItemPlaylistName>{artist}</PlaylistItemPlaylistName>
       </PlaylistItemInfo>
       <PlaylistItemDuration>
-        <CenteredItem>
-          {hover ? (
-            <CirclePlay
-              onClick={() => {
-                togglePlay();
-              }}
-            />
-          ) : (
-            formatTime(duration)
-          )}
-        </CenteredItem>
+        <CenteredItem>{displayAction()}</CenteredItem>
       </PlaylistItemDuration>
     </PlaylistItemContainer>
   );
 };
 
 export const PlaylistList: React.FC<Playlist> = ({ artist, tracks, id }) => {
-  const { playlistID, setPlaylistID, setCurrentTrackIndex } = usePlaylist();
-  const {
-    togglePlayPause,
-    currentTrackIndex,
-    isPlaying,
-    play,
-    setCurrentTime,
-  } = usePlaylistPlayer();
+  // TODO: Audio Player
+  const player = useAudioPlayer();
+  const { playlists } = usePlaylist();
   return (
     <PlaylistListContainer>
       {tracks.map((track, trackIndex) => {
         const togglePlay = () => {
-          if (
-            playlistID === id &&
-            currentTrackIndex === trackIndex &&
-            isPlaying
-          ) {
-            togglePlayPause();
+          if (player?.playlist?.id !== id) {
+            player.setPlaylist(playlists[id - 1], 0);
+            player.play();
           } else {
-            setPlaylistID(id);
-            setCurrentTrackIndex(trackIndex);
-            setCurrentTime(0);
-            play();
+            player.togglePlayPause();
           }
         };
         return (

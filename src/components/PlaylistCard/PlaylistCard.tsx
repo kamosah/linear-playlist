@@ -5,6 +5,7 @@ import {
   GRAY_200,
   GRAY_300,
   GRAY_400,
+  GRAY_600,
   GRAY_700,
   GRAY_800,
 } from "../../styles";
@@ -18,6 +19,9 @@ const PlaylistCardContainer = styled.div`
   border: ${GRAY_200};
   box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
   width: 100%;
+  &:hover {
+    background-color: ${GRAY_600};
+  }
 `;
 
 const PlaylistName = styled.h5`

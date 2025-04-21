@@ -25,7 +25,7 @@ export const PlaylistPlayerContextProvider: React.FC<{
   const [repeat, setRepeat] = useState<"none" | "all" | "one">(
     DEFAULT_PLAYLIST_PLAYER_STATE.repeat
   );
-  const audioRef = useRef<HTMLAudioElement>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
   const play = (): void => {
     if (audioRef.current) {
       audioRef.current.play();
@@ -38,12 +38,19 @@ export const PlaylistPlayerContextProvider: React.FC<{
       setIsPlaying(false);
     }
   };
-  const togglePlayPause = (): void => {
+  const togglePlayPause = () => {
     if (audioRef.current) {
       if (isPlaying) {
         audioRef.current.pause();
       } else {
-        audioRef.current.play();
+        // This promise handles autoplay restrictions in browsers
+        const playPromise = audioRef.current.play();
+        if (playPromise !== undefined) {
+          playPromise.catch((error) => {
+            console.error("Error changing track:", error);
+            setIsPlaying(false);
+          });
+        }
       }
       setIsPlaying(!isPlaying);
     }

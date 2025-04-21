@@ -1,8 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import {
   Captions,
   ListMusic,
+  LoaderCircle,
   Maximize2,
   Pause,
   Play,
@@ -15,7 +16,7 @@ import {
 } from "lucide-react";
 import { GRAY_700, GRAY_800 } from "../../styles";
 import { formatTime } from "../../utils";
-import { usePlaylist, usePlaylistPlayer } from "../../hooks";
+import { useAudioPlayer } from "../../hooks";
 
 export const DOCK_HEIGHT = "6rem";
 
@@ -80,9 +81,10 @@ const IconButton = styled.button<{ $isActive?: boolean }>`
   align-items: center;
   background: transparent;
   border-radius: 9999px;
-  color: #cbd5e1;
+  color: ${({ $isActive }) => ($isActive ? "white" : "#cbd5e1")};
   cursor: pointer;
   display: flex;
+  font-weight: ${({ $isActive }) => $isActive && "bold"};
   justify-content: center;
   padding: 0.625rem;
   transition: background-color 0.2s ease;
@@ -144,229 +146,134 @@ const StyledRange = styled.input`
 `;
 
 export const PlayerDock: React.FC = () => {
-  const { playlistID = 1, playlists, currentTrackIndex = 0 } = usePlaylist();
-  const {
-    isPlaying,
-    repeat,
-    setIsPlaying,
-    shuffle,
-    setShuffle,
-    setCurrentTrackIndex,
-    setRepeat,
-    setCurrentTime,
-    setDuration,
-    currentTime,
-    duration,
-    audioRef,
-    togglePlayPause,
-  } = usePlaylistPlayer();
-  const playlist = playlists.find((pl) => pl.id == playlistID)!;
-  const { tracks } = playlist;
-  const currentTrack = tracks[currentTrackIndex];
+  const player = useAudioPlayer();
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
 
-  const playNextTrack = (): void => {
-    if (repeat === "one") {
-      // Replay the current track
-      if (audioRef.current) {
-        audioRef.current.currentTime = 0;
-        audioRef.current.play();
-      }
-      return;
-    }
-
-    if (shuffle) {
-      // Play a random track that isn't the current one
-      let nextIndex = currentTrackIndex;
-      while (nextIndex === currentTrackIndex && tracks.length > 1) {
-        nextIndex = Math.floor(Math.random() * tracks.length);
-      }
-      setCurrentTrackIndex(nextIndex);
-    } else {
-      // Play next track or loop to first
-      if (currentTrackIndex < tracks.length - 1) {
-        setCurrentTrackIndex(currentTrackIndex + 1);
-      } else if (repeat === "all") {
-        setCurrentTrackIndex(0);
-      } else {
-        setIsPlaying(false);
-      }
-    }
-  };
-
-  const playPrevTrack = (): void => {
-    // If we're past 3 seconds into the track, restart the current track
-    if (audioRef.current && audioRef.current.currentTime > 3) {
-      audioRef.current.currentTime = 0;
-      return;
-    }
-
-    if (shuffle) {
-      // Play a random track
-      let prevIndex = currentTrackIndex;
-      while (prevIndex === currentTrackIndex && tracks.length > 1) {
-        prevIndex = Math.floor(Math.random() * tracks.length);
-      }
-    } else {
-      // Play previous track or loop to last
-      if (currentTrackIndex > 0) {
-        setCurrentTrackIndex(currentTrackIndex - 1);
-      } else if (repeat === "all") {
-        setCurrentTrackIndex(tracks.length - 1);
-      }
-    }
-  };
-
-  const toggleShuffle = (): void => {
-    setShuffle(!shuffle);
-  };
-
-  const toggleRepeat = (): void => {
-    if (repeat === "none") {
-      setRepeat("all");
-    } else if (repeat === "all") {
-      setRepeat("one");
-    } else {
-      setRepeat("none");
-    }
-  };
-
-  // Progress bar change handle (same as basic audio player)
-  const handleProgressChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ): void => {
-    if (audioRef.current) {
-      const newTime = parseFloat(e.target.value);
-      audioRef.current.currentTime = newTime;
-      setCurrentTime(newTime);
-    }
-  };
-
+  // Update time display
   useEffect(() => {
-    // Reset audio and update when track changes
-    if (audioRef.current) {
-      audioRef.current.currentTime = 0;
-      setCurrentTime(0);
+    const audio = player.audioRef.current;
+    if (!audio) return;
 
-      if (isPlaying) {
-        try {
-          audioRef.current.play();
-        } catch (error) {
-          console.error("Play error:", error);
-        }
-      }
-    }
-  }, []);
+    const updateTime = () => {
+      setCurrentTime(audio.currentTime);
+      setDuration(audio.duration || 0);
+    };
 
-  useEffect(() => {
-    if (audioRef.current) {
-      const audio = audioRef.current;
+    audio.addEventListener("timeupdate", updateTime);
+    audio.addEventListener("loadedmetadata", updateTime);
 
-      const handleTimeUpdate = () => {
-        setCurrentTime(audio.currentTime);
-      };
+    return () => {
+      audio.removeEventListener("timeupdate", updateTime);
+      audio.removeEventListener("loadedmetadata", updateTime);
+    };
+  }, [player.audioRef]);
 
-      const handleLoadedMetadata = () => {
-        setDuration(audio.duration);
-      };
-
-      const handleEnded = () => {
-        playNextTrack();
-      };
-
-      // Add event listeners
-      audio.addEventListener("timeupdate", handleTimeUpdate);
-      audio.addEventListener("loadedmetadata", handleLoadedMetadata);
-      audio.addEventListener("ended", handleEnded);
-
-      return () => {
-        audio.addEventListener("timeupdate", handleTimeUpdate);
-        audio.addEventListener("loadedmetadata", handleLoadedMetadata);
-        audio.addEventListener("ended", handleEnded);
-      };
-    }
-  }, [currentTrackIndex, shuffle, repeat]);
+  // Handle seeking
+  const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseFloat(e.target.value);
+    player.seek(value);
+  };
+  const displayDock = Boolean(player.currentTrack) && Boolean(player.playlist);
 
   return (
-    <Dock>
-      <audio ref={audioRef} src={currentTrack.url} preload="metadata" />
-      <SongInfo>
-        <SongTitle>{currentTrack.name}</SongTitle>
-        <ArtistName>{playlist.artist}</ArtistName>
-      </SongInfo>
+    displayDock && (
+      <Dock>
+        <audio
+          ref={player.audioRef}
+          src={player.audioRef.current?.src}
+          preload="auto"
+        />
+        <SongInfo>
+          <SongTitle>{player.currentTrack?.name}</SongTitle>
+          <ArtistName>{player?.playlist?.artist}</ArtistName>
+        </SongInfo>
 
-      <Controls>
-        <ControlRow>
-          <IconButton
-            aria-pressed={shuffle}
-            aria-label="Shuffle"
-            onClick={toggleShuffle}
-          >
-            <Shuffle size="1em" />
+        <Controls>
+          <ControlRow>
+            <IconButton
+              aria-pressed={player.shuffle}
+              aria-label="Shuffle"
+              onClick={player.toggleShuffle}
+            >
+              <Shuffle size="1em" />
+            </IconButton>
+            <IconButton>
+              <SkipBack
+                aria-label="Previous track"
+                className="prev-button"
+                onClick={player.previous}
+                size="1em"
+              />
+            </IconButton>
+            <IconButton
+              onClick={player.togglePlayPause}
+              className="play-pause-button"
+              aria-label={player.isPlaying ? "Pause" : "Play"}
+            >
+              {player.isLoading ? (
+                <LoaderCircle size="1em" />
+              ) : player.isPlaying ? (
+                <Pause size="1em" />
+              ) : (
+                <Play size="1em" />
+              )}
+            </IconButton>
+            <IconButton
+              onClick={player.next}
+              className="next-button"
+              aria-label="Next track"
+            >
+              <SkipForward size="1em" />
+            </IconButton>
+            <IconButton
+              onClick={player.toggleRepeat}
+              // TODO: Implement repeat active state
+              // className={`repeat-button ${repeat !== "none" ? "active" : ""}`}
+              className="repeat-button"
+              aria-label={`Repeat ${player.repeatMode}`}
+              $isActive={player.repeatMode !== "none"}
+            >
+              {player.repeatMode === "one" ? (
+                <Repeat1 size="1em" />
+              ) : (
+                <Repeat size="1em" />
+              )}
+            </IconButton>
+          </ControlRow>
+          <Progress>
+            <span style={{ fontSize: "0.875rem", color: "#94a3b8" }}>
+              {formatTime(currentTime)}
+            </span>
+            <StyledRange
+              type="range"
+              min="0"
+              max={duration || 100}
+              value={currentTime}
+              // onChange={handleProgressChange}
+              onChange={handleSeek}
+            />
+            <span style={{ fontSize: "0.875rem", color: "#94a3b8" }}>
+              {formatTime(duration)}
+            </span>
+          </Progress>
+        </Controls>
+
+        <RightActions>
+          <IconButton>
+            <ListMusic size="1em" />
           </IconButton>
           <IconButton>
-            <SkipBack
-              aria-label="Previous track"
-              className="prev-button"
-              onClick={playPrevTrack}
-              size="1em"
-            />
+            <Captions size="1em" />
           </IconButton>
-          <IconButton
-            onClick={togglePlayPause}
-            className="play-pause-button"
-            aria-label={isPlaying ? "Pause" : "Play"}
-          >
-            {isPlaying ? <Pause size="1em" /> : <Play size="1em" />}
+          <IconButton>
+            <Maximize2 size="1em" />
           </IconButton>
-          <IconButton
-            onClick={playNextTrack}
-            className="next-button"
-            aria-label="Next track"
-          >
-            <SkipForward size="1em" />
+          <IconButton>
+            <Volume2 size="1em" />
           </IconButton>
-          <IconButton
-            onClick={toggleRepeat}
-            // TODO: Implement repeat active state
-            // className={`repeat-button ${repeat !== "none" ? "active" : ""}`}
-            className="repeat-button"
-            aria-label={`Repeat ${repeat}`}
-            $isActive={repeat !== "none"}
-          >
-            {repeat === "one" ? <Repeat1 size="1em" /> : <Repeat size="1em" />}
-          </IconButton>
-        </ControlRow>
-        <Progress>
-          <span style={{ fontSize: "0.875rem", color: "#94a3b8" }}>
-            {formatTime(currentTime)}
-          </span>
-          <StyledRange
-            type="range"
-            min="0"
-            max={duration || 100}
-            value={currentTime}
-            onChange={handleProgressChange}
-          />
-          <span style={{ fontSize: "0.875rem", color: "#94a3b8" }}>
-            {formatTime(duration)}
-          </span>
-        </Progress>
-      </Controls>
-
-      <RightActions>
-        <IconButton>
-          <ListMusic size="1em" />
-        </IconButton>
-        <IconButton>
-          <Captions size="1em" />
-        </IconButton>
-        <IconButton>
-          <Maximize2 size="1em" />
-        </IconButton>
-        <IconButton>
-          <Volume2 size="1em" />
-        </IconButton>
-      </RightActions>
-    </Dock>
+        </RightActions>
+      </Dock>
+    )
   );
 };

@@ -12,3 +12,9 @@ export type Playlist = {
   year: number;
   tracks: Track[];
 };
+
+export type PreloadedAudio = {
+  audio: HTMLAudioElement;
+  loaded: boolean;
+};
+

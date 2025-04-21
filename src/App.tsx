@@ -1,9 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Home, Layout, Playlist } from "./components/Routes";
-import {
-  PlaylistContextProvider,
-  PlaylistPlayerContextProvider,
-} from "./context";
+import { AudioPlayerProvider, PlaylistContextProvider } from "./context";
 
 // Create the router configuration
 const router = createBrowserRouter([
@@ -25,11 +22,11 @@ const router = createBrowserRouter([
 
 export const App = () => {
   return (
-    <PlaylistPlayerContextProvider>
+    <AudioPlayerProvider>
       <PlaylistContextProvider>
         <RouterProvider router={router} />
       </PlaylistContextProvider>
-    </PlaylistPlayerContextProvider>
+    </AudioPlayerProvider>
   );
 };
 
