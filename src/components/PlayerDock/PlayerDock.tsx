@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import {
-  Captions,
-  ListMusic,
   LoaderCircle,
-  Maximize2,
   Pause,
   Play,
   Repeat,
@@ -12,7 +9,6 @@ import {
   Shuffle,
   SkipBack,
   SkipForward,
-  Volume2,
 } from "lucide-react";
 import { GRAY_700, GRAY_800 } from "../../styles";
 import { formatTime } from "../../utils";
@@ -39,8 +35,8 @@ const Dock = styled.div`
   }
 `;
 
-const SongInfo = styled.div`
-  display: flex;
+const SongInfo = styled.div<{ $displayInfo: boolean }>`
+  display: ${({ $displayInfo }) => ($displayInfo ? "flex" : "hidden")};
   flex-direction: column;
   justify-content: center;
 `;
@@ -84,42 +80,31 @@ const Progress = styled.div`
   gap: 0.5rem;
 `;
 
-const RightActions = styled.div`
-  align-items: center;
-  display: none;
-  gap: 0.5rem;
-  justify-content: center;
-
-  @media (min-width: 768px) {
-    display: flex;
-  }
-`;
-
 const StyledRange = styled.input`
   appearance: none;
-  width: 100%;
-  height: 6px;
   background: #334155;
   border-radius: 9999px;
+  height: 6px;
   outline: none;
   transition: background 0.2s;
+  width: 100%;
 
   &::-webkit-slider-thumb {
     appearance: none;
-    width: 12px;
-    height: 12px;
     background: #3b82f6;
     border-radius: 50%;
     cursor: pointer;
+    height: 12px;
+    width: 12px;
   }
 
   &::-moz-range-thumb {
-    width: 12px;
-    height: 12px;
     background: #3b82f6;
-    border: none;
     border-radius: 50%;
+    border: none;
     cursor: pointer;
+    height: 12px;
+    width: 12px;
   }
 `;
 
@@ -151,115 +136,99 @@ export const PlayerDock: React.FC = () => {
     const value = parseFloat(e.target.value);
     player.seek(value);
   };
-  const displayDock = Boolean(player.currentTrack) && Boolean(player.playlist);
+
+  const getPlayerIcon = () => {
+    if (player.isLoading) {
+      return <LoaderCircle size="1em" />;
+    }
+    if (player.isPlaying) {
+      return <Pause size="1em" />;
+    } else {
+      return <Play size="1em" />;
+    }
+  };
+
+  const displayInfo = Boolean(player.currentTrack) && Boolean(player.playlist);
 
   return (
-    displayDock && (
-      <Dock>
-        <audio
-          ref={player.audioRef}
-          src={player.audioRef.current?.src}
-          preload="auto"
-        />
-        <SongInfo>
-          <SongTitle>{player.currentTrack?.name}</SongTitle>
-          <ArtistName>{player?.playlist?.artist}</ArtistName>
-        </SongInfo>
+    <Dock>
+      <audio
+        ref={player.audioRef}
+        src={player.audioRef.current?.src}
+        preload="auto"
+      />
 
-        <Controls>
-          <ControlRow>
-            <IconButton
-              aria-pressed={player.shuffle}
-              aria-label="Shuffle"
-              onClick={player.toggleShuffle}
-              $isActive={player.shuffle}
-            >
-              <Shuffle size="1em" {...(player.shuffle && { strokeWidth: 3 })} />
-            </IconButton>
-            <IconButton
-              disabled={!player.currentTrack}
-              onClick={() => {
-                player.previous();
-              }}
-            >
-              <SkipBack
-                aria-label="Previous track"
-                className="prev-button"
+      <SongInfo $displayInfo={displayInfo}>
+        <SongTitle>{player.currentTrack?.name}</SongTitle>
+        <ArtistName>{player?.playlist?.artist}</ArtistName>
+      </SongInfo>
+
+      <Controls>
+        <ControlRow>
+          <IconButton
+            aria-pressed={player.shuffle}
+            aria-label="Shuffle"
+            onClick={player.toggleShuffle}
+            $isActive={player.shuffle}
+          >
+            <Shuffle size="1em" {...(player.shuffle && { strokeWidth: 3 })} />
+          </IconButton>
+          <IconButton disabled={!player.currentTrack} onClick={player.previous}>
+            <SkipBack
+              aria-label="Previous track"
+              className="prev-button"
+              size="1em"
+            />
+          </IconButton>
+          <IconButton
+            aria-label={player.isPlaying ? "Pause" : "Play"}
+            className="play-pause-button"
+            disabled={!player.currentTrack || player.isLoading}
+            onClick={player.togglePlayPause}
+          >
+            {getPlayerIcon()}
+          </IconButton>
+          <IconButton
+            disabled={!player.currentTrack}
+            onClick={player.next}
+            className="next-button"
+            aria-label="Next track"
+          >
+            <SkipForward size="1em" />
+          </IconButton>
+          <IconButton
+            $isActive={player.repeatMode !== "none"}
+            aria-label={`Repeat ${player.repeatMode}`}
+            className="repeat-button"
+            onClick={player.toggleRepeat}
+          >
+            {player.repeatMode === "one" ? (
+              <Repeat1 size="1em" strokeWidth={3} />
+            ) : (
+              <Repeat
+                {...(player.repeatMode !== "none" && { strokeWidth: 3 })}
                 size="1em"
               />
-            </IconButton>
-            <IconButton
-              disabled={!player.currentTrack || player.isLoading}
-              onClick={player.togglePlayPause}
-              className="play-pause-button"
-              aria-label={player.isPlaying ? "Pause" : "Play"}
-            >
-              {player.isLoading ? (
-                <LoaderCircle size="1em" />
-              ) : player.isPlaying ? (
-                <Pause size="1em" />
-              ) : (
-                <Play size="1em" />
-              )}
-            </IconButton>
-            <IconButton
-              disabled={!player.currentTrack}
-              onClick={player.next}
-              className="next-button"
-              aria-label="Next track"
-            >
-              <SkipForward size="1em" />
-            </IconButton>
-            <IconButton
-              // onClick={player.toggleRepeat}
-              onClick={player.toggleRepeat}
-              className="repeat-button"
-              aria-label={`Repeat ${player.repeatMode}`}
-              $isActive={player.repeatMode !== "none"}
-            >
-              {player.repeatMode === "one" ? (
-                <Repeat1 size="1em" strokeWidth={3} />
-              ) : (
-                <Repeat
-                  {...(player.repeatMode !== "none" && { strokeWidth: 3 })}
-                  size="1em"
-                />
-              )}
-            </IconButton>
-          </ControlRow>
-          <Progress>
-            <span style={{ fontSize: "0.875rem", color: "#94a3b8" }}>
-              {formatTime(currentTime)}
-            </span>
-            <StyledRange
-              type="range"
-              min="0"
-              max={duration || 100}
-              value={currentTime}
-              onChange={handleSeek}
-              disabled={!player.currentTrack}
-            />
-            <span style={{ fontSize: "0.875rem", color: "#94a3b8" }}>
-              {formatTime(duration)}
-            </span>
-          </Progress>
-        </Controls>
-
-        <RightActions>
-          <IconButton>
-            <ListMusic size="1em" />
+            )}
           </IconButton>
-          <IconButton>
-            <Captions size="1em" />
-          </IconButton>
-          <IconButton>
-            <Maximize2 size="1em" />
-          </IconButton>
-          <IconButton>
-            <Volume2 size="1em" />
-          </IconButton>
-        </RightActions>
-      </Dock>
-    )
+        </ControlRow>
+        <Progress>
+          <span style={{ fontSize: "0.875rem", color: "#94a3b8" }}>
+            {formatTime(currentTime)}
+          </span>
+          <StyledRange
+            disabled={!player.currentTrack}
+            max={duration || 100}
+            min="0"
+            onChange={handleSeek}
+            type="range"
+            value={currentTime}
+          />
+          <span style={{ fontSize: "0.875rem", color: "#94a3b8" }}>
+            {formatTime(duration)}
+          </span>
+        </Progress>
+      </Controls>
+    </Dock>
   );
 };
