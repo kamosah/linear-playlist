@@ -5,6 +5,8 @@ import { styled } from "styled-components";
 import { useState } from "react";
 import { DOCK_HEIGHT } from "../PlayerDock";
 import { useAudioPlayer, usePlaylist } from "../../hooks";
+import { INDIGO_700 } from "../../styles";
+import { IconButton } from "../IconButton";
 
 type PlaylistItem = {
   artist: string;
@@ -55,30 +57,35 @@ const PlaylistListContainer = styled.ul`
 
 export const PlaylistListItem: React.FC<
   PlaylistItem & {
-    onActionClick: () => void;
-    isPlayingCurrentTrack: boolean;
+    onActionClick: React.MouseEventHandler<HTMLButtonElement>;
+    isPlayingNow: boolean;
     onItemClick: () => void;
   }
-> = ({
-  artist,
-  duration,
-  name,
-  onActionClick,
-  isPlayingCurrentTrack,
-  onItemClick,
-}) => {
+> = ({ artist, duration, name, onActionClick, isPlayingNow, onItemClick }) => {
   const [hover, setHover] = useState(false);
 
   const displayAction = () => {
     if (hover) {
-      if (isPlayingCurrentTrack) {
-        return <PauseCircle onClick={onActionClick} />;
+      if (isPlayingNow) {
+        return (
+          <IconButton onClick={onActionClick}>
+            <PauseCircle />
+          </IconButton>
+        );
       } else {
-        return <PlayCircle onClick={onActionClick} />;
+        return (
+          <IconButton onClick={onActionClick}>
+            <PlayCircle />
+          </IconButton>
+        );
       }
     } else {
-      if (isPlayingCurrentTrack) {
-        return <Volume2 />;
+      if (isPlayingNow) {
+        return (
+          <IconButton>
+            <Volume2 color={INDIGO_700} />
+          </IconButton>
+        );
       } else {
         return formatTime(duration);
       }
@@ -101,8 +108,8 @@ export const PlaylistListItem: React.FC<
   );
 };
 
-export const PlaylistList: React.FC<Playlist> = ({ artist, tracks, id }) => {
-  // TODO: Audio Player
+export const PlaylistList: React.FC<Playlist> = (playlist) => {
+  const { artist, tracks, id } = playlist;
   const player = useAudioPlayer();
   const { playlists } = usePlaylist();
   const onItemClick = (trackIndex: number) => () => {
@@ -111,8 +118,11 @@ export const PlaylistList: React.FC<Playlist> = ({ artist, tracks, id }) => {
   return (
     <PlaylistListContainer>
       {tracks.map((track, trackIndex) => {
-        const onActionClick = () => {
-          console.log("onActionClick", player);
+        const onActionClick: React.MouseEventHandler<HTMLButtonElement> = (
+          e
+        ) => {
+          e.preventDefault();
+          e.stopPropagation();
           if (player?.playlist?.id !== id) {
             player.setPlaylist(playlists[id - 1], 0);
             player.play();
@@ -126,6 +136,11 @@ export const PlaylistList: React.FC<Playlist> = ({ artist, tracks, id }) => {
             key={track.id}
             artist={artist}
             onItemClick={onItemClick(trackIndex)}
+            isPlayingNow={
+              player?.isPlaying &&
+              player?.currentTrack?.id === track.id &&
+              player?.playlist?.id === playlist.id
+            }
             {...track}
           />
         );

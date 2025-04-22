@@ -14,9 +14,10 @@ import {
   SkipForward,
   Volume2,
 } from "lucide-react";
-import { GRAY_700, GRAY_800, INDIGO_700 } from "../../styles";
+import { GRAY_700, GRAY_800 } from "../../styles";
 import { formatTime } from "../../utils";
 import { useAudioPlayer } from "../../hooks";
+import { IconButton } from "../IconButton";
 
 export const DOCK_HEIGHT = "6rem";
 
@@ -75,28 +76,6 @@ const ControlRow = styled.div`
   gap: 0.5rem;
   justify-content: center;
   margin-bottom: 0.5rem;
-`;
-
-const IconButton = styled.button<{ $isActive?: boolean }>`
-  align-items: center;
-  background: transparent;
-  border-radius: 9999px;
-  color: ${({ $isActive }) => ($isActive ? INDIGO_700 : "#cbd5e1")};
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  padding: 0.625rem;
-  transition: background-color 0.2s ease;
-
-  &:hover {
-    background: #334155;
-    color: ${({ $isActive }) => ($isActive ? INDIGO_700 : "#cbd5e1")};
-  }
-
-  &:focus {
-    box-shadow: 0 0 0 4px #3b82f6;
-    outline: none;
-  }
 `;
 
 const Progress = styled.div`
@@ -168,7 +147,6 @@ export const PlayerDock: React.FC = () => {
     };
   }, [player.audioRef, player.currentTrack]);
 
-  // Handle seeking
   const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseFloat(e.target.value);
     player.seek(value);
@@ -233,9 +211,8 @@ export const PlayerDock: React.FC = () => {
               <SkipForward size="1em" />
             </IconButton>
             <IconButton
+              // onClick={player.toggleRepeat}
               onClick={player.toggleRepeat}
-              // TODO: Implement repeat active state
-              // className={`repeat-button ${repeat !== "none" ? "active" : ""}`}
               className="repeat-button"
               aria-label={`Repeat ${player.repeatMode}`}
               $isActive={player.repeatMode !== "none"}

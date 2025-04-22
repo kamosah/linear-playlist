@@ -1,10 +1,11 @@
 import { House, PauseCircle, PlayCircle, Volume2 } from "lucide-react";
 import { styled } from "styled-components";
-import { GRAY_100, GRAY_500, GRAY_800 } from "../../styles";
+import { GRAY_100, GRAY_500, GRAY_800, INDIGO_700 } from "../../styles";
 import { Link, useParams } from "react-router-dom";
 import { useAudioPlayer, usePlaylist } from "../../hooks";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Playlist } from "../../types";
+import { IconButton } from "../IconButton";
 
 const SidebarContainer = styled.aside`
   /* TODO: Responsive */
@@ -111,20 +112,32 @@ const SidebarNavItem: React.FC<
     isPlayingNow: boolean;
     $isActive: boolean;
     playlistID: number;
-    onActionClick: () => void;
+    onActionClick: React.MouseEventHandler<HTMLButtonElement>;
   }
 > = ({ id, isPlayingNow, name, artist, onActionClick, $isActive }) => {
   const [hover, setHover] = useState(false);
   const displayAction = () => {
     if (hover) {
       if (isPlayingNow) {
-        return <PauseCircle onClick={onActionClick} />;
+        return (
+          <IconButton onClick={onActionClick}>
+            <PauseCircle />
+          </IconButton>
+        );
       } else {
-        return <PlayCircle onClick={onActionClick} />;
+        return (
+          <IconButton onClick={onActionClick}>
+            <PlayCircle />
+          </IconButton>
+        );
       }
     } else {
       if (isPlayingNow) {
-        return <Volume2 />;
+        return (
+          <IconButton>
+            <Volume2 color={INDIGO_700} />
+          </IconButton>
+        );
       }
     }
   };
@@ -173,12 +186,15 @@ export const SidebarNavigation = () => {
 
         <SidebarNavList>
           {playlists.map((playlist) => {
-            const onActionClick = () => {
+            const onActionClick: React.MouseEventHandler<HTMLButtonElement> = (
+              e
+            ) => {
+              e.preventDefault();
+              e.stopPropagation();
               if (player?.playlist?.id !== playlist.id) {
                 player.setPlaylist(playlists[playlist.id - 1], 0);
                 player.play();
               } else {
-                console.log("SidebarNavigation.Navlist.onActionClick.else");
                 player.togglePlayPause();
               }
             };
@@ -186,7 +202,9 @@ export const SidebarNavigation = () => {
               <SidebarNavItem
                 key={playlist.id}
                 onActionClick={onActionClick}
-                // isPlayingNow={playlistID === playlist.id && player.isPlaying}
+                isPlayingNow={
+                  player?.playlist?.id === playlist.id && player.isPlaying
+                }
                 $isActive={+id === playlist.id}
                 playlistID={playlistID}
                 {...playlist}
