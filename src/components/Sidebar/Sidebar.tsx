@@ -1,9 +1,8 @@
 import { House, PauseCircle, PlayCircle, Volume2 } from "lucide-react";
-import { playlists } from "../../data/playlists.json";
 import { styled } from "styled-components";
 import { GRAY_100, GRAY_500, GRAY_800 } from "../../styles";
 import { Link, useParams } from "react-router-dom";
-import { usePlaylist } from "../../hooks";
+import { useAudioPlayer, usePlaylist } from "../../hooks";
 import { useState } from "react";
 import { Playlist } from "../../types";
 
@@ -112,16 +111,16 @@ const SidebarNavItem: React.FC<
     isPlayingNow: boolean;
     $isActive: boolean;
     playlistID: number;
-    onClick: () => void;
+    onActionClick: () => void;
   }
-> = ({ id, isPlayingNow, name, artist, onClick, $isActive }) => {
+> = ({ id, isPlayingNow, name, artist, onActionClick, $isActive }) => {
   const [hover, setHover] = useState(false);
   const displayAction = () => {
     if (hover) {
       if (isPlayingNow) {
-        return <PauseCircle onClick={onClick} />;
+        return <PauseCircle onClick={onActionClick} />;
       } else {
-        return <PlayCircle onClick={onClick} />;
+        return <PlayCircle onClick={onActionClick} />;
       }
     } else {
       if (isPlayingNow) {
@@ -150,9 +149,8 @@ const SidebarNavItem: React.FC<
 
 export const SidebarNavigation = () => {
   const { id } = useParams() as { id: string };
-  const { playlistID } = usePlaylist();
-  // TODO: Audio Player options
-  // const player = useAudioPlayer();
+  const { playlists, playlistID } = usePlaylist();
+  const player = useAudioPlayer();
   return (
     <SidebarContainer aria-label="Sidebar">
       <SidebarSection>
@@ -175,12 +173,19 @@ export const SidebarNavigation = () => {
 
         <SidebarNavList>
           {playlists.map((playlist) => {
+            const onActionClick = () => {
+              if (player?.playlist?.id !== playlist.id) {
+                player.setPlaylist(playlists[playlist.id - 1], 0);
+                player.play();
+              } else {
+                console.log("SidebarNavigation.Navlist.onActionClick.else");
+                player.togglePlayPause();
+              }
+            };
             return (
               <SidebarNavItem
                 key={playlist.id}
-                onClick={() => {
-                  //
-                }}
+                onActionClick={onActionClick}
                 // isPlayingNow={playlistID === playlist.id && player.isPlaying}
                 $isActive={+id === playlist.id}
                 playlistID={playlistID}

@@ -9,6 +9,8 @@ export const GRAY_800 = "oklch(27.8% 0.033 256.848)";
 export const GRAY_900 = "oklch(13% 0.028 261.692)";
 export const GRAY_950 = "oklch(13% 0.028 261.692)";
 
+export const INDIGO_700 = "oklch(45.7% 0.24 277.023)";
+
 export const BORDER_RADIUS_LG = "0.5rem";
 
 export const DARK_THEME = {

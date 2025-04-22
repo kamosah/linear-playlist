@@ -54,16 +54,27 @@ const PlaylistListContainer = styled.ul`
 `;
 
 export const PlaylistListItem: React.FC<
-  PlaylistItem & { togglePlay: () => void; isPlayingCurrentTrack: boolean }
-> = ({ artist, duration, name, togglePlay, isPlayingCurrentTrack }) => {
+  PlaylistItem & {
+    onActionClick: () => void;
+    isPlayingCurrentTrack: boolean;
+    onItemClick: () => void;
+  }
+> = ({
+  artist,
+  duration,
+  name,
+  onActionClick,
+  isPlayingCurrentTrack,
+  onItemClick,
+}) => {
   const [hover, setHover] = useState(false);
 
   const displayAction = () => {
     if (hover) {
       if (isPlayingCurrentTrack) {
-        return <PauseCircle onClick={togglePlay} />;
+        return <PauseCircle onClick={onActionClick} />;
       } else {
-        return <PlayCircle onClick={togglePlay} />;
+        return <PlayCircle onClick={onActionClick} />;
       }
     } else {
       if (isPlayingCurrentTrack) {
@@ -77,6 +88,7 @@ export const PlaylistListItem: React.FC<
     <PlaylistItemContainer
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
+      onClick={onItemClick}
     >
       <PlaylistItemInfo>
         <PlaylistItemSong>{name}</PlaylistItemSong>
@@ -93,10 +105,14 @@ export const PlaylistList: React.FC<Playlist> = ({ artist, tracks, id }) => {
   // TODO: Audio Player
   const player = useAudioPlayer();
   const { playlists } = usePlaylist();
+  const onItemClick = (trackIndex: number) => () => {
+    player.setPlaylist(playlists[id - 1], trackIndex);
+  };
   return (
     <PlaylistListContainer>
       {tracks.map((track, trackIndex) => {
-        const togglePlay = () => {
+        const onActionClick = () => {
+          console.log("onActionClick", player);
           if (player?.playlist?.id !== id) {
             player.setPlaylist(playlists[id - 1], 0);
             player.play();
@@ -106,9 +122,10 @@ export const PlaylistList: React.FC<Playlist> = ({ artist, tracks, id }) => {
         };
         return (
           <PlaylistListItem
-            togglePlay={togglePlay}
+            onActionClick={onActionClick}
             key={track.id}
             artist={artist}
+            onItemClick={onItemClick(trackIndex)}
             {...track}
           />
         );

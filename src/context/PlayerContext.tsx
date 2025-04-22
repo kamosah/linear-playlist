@@ -1,6 +1,5 @@
 import React, {
   createContext,
-  useContext,
   useRef,
   useState,
   useEffect,
@@ -14,7 +13,6 @@ interface PlayerState {
   currentTrack: Track | null;
   isPlaying: boolean;
   isLoading: boolean;
-  // playlist: Track[];
   playlist: Playlist | null;
   currentIndex: number;
   repeatMode: RepeatMode;
@@ -244,7 +242,7 @@ export const AudioPlayerProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const next = useCallback(() => {
     const nextIndex = getNextIndex();
-    if (!nextIndex) return;
+    if (!nextIndex && nextIndex !== 0) return;
     if (nextIndex === -1) {
       // End of playlist and not repeating
       attemptPause();
@@ -325,6 +323,10 @@ export const AudioPlayerProvider: React.FC<{ children: React.ReactNode }> = ({
     };
 
     const handleEnded = () => {
+      if (state.repeatMode === "none") {
+        attemptPause();
+        return;
+      }
       next();
     };
 
@@ -348,7 +350,7 @@ export const AudioPlayerProvider: React.FC<{ children: React.ReactNode }> = ({
       audio.removeEventListener("ended", handleEnded);
       audio.removeEventListener("error", handleError);
     };
-  }, [next, attemptPlay]);
+  }, [next, attemptPlay, audioRef]);
 
   // Initial setup
   useEffect(() => {

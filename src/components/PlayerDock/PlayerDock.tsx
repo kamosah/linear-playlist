@@ -14,7 +14,7 @@ import {
   SkipForward,
   Volume2,
 } from "lucide-react";
-import { GRAY_700, GRAY_800 } from "../../styles";
+import { GRAY_700, GRAY_800, INDIGO_700 } from "../../styles";
 import { formatTime } from "../../utils";
 import { useAudioPlayer } from "../../hooks";
 
@@ -81,17 +81,16 @@ const IconButton = styled.button<{ $isActive?: boolean }>`
   align-items: center;
   background: transparent;
   border-radius: 9999px;
-  color: ${({ $isActive }) => ($isActive ? "white" : "#cbd5e1")};
+  color: ${({ $isActive }) => ($isActive ? INDIGO_700 : "#cbd5e1")};
   cursor: pointer;
   display: flex;
-  font-weight: ${({ $isActive }) => $isActive && "bold"};
   justify-content: center;
   padding: 0.625rem;
   transition: background-color 0.2s ease;
 
   &:hover {
     background: #334155;
-    color: white;
+    color: ${({ $isActive }) => ($isActive ? INDIGO_700 : "#cbd5e1")};
   }
 
   &:focus {
@@ -167,7 +166,7 @@ export const PlayerDock: React.FC = () => {
       audio.removeEventListener("timeupdate", updateTime);
       audio.removeEventListener("loadedmetadata", updateTime);
     };
-  }, [player.audioRef]);
+  }, [player.audioRef, player.currentTrack]);
 
   // Handle seeking
   const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -195,18 +194,24 @@ export const PlayerDock: React.FC = () => {
               aria-pressed={player.shuffle}
               aria-label="Shuffle"
               onClick={player.toggleShuffle}
+              $isActive={player.shuffle}
             >
-              <Shuffle size="1em" />
+              <Shuffle size="1em" {...(player.shuffle && { strokeWidth: 3 })} />
             </IconButton>
-            <IconButton>
+            <IconButton
+              disabled={!player.currentTrack}
+              onClick={() => {
+                player.previous();
+              }}
+            >
               <SkipBack
                 aria-label="Previous track"
                 className="prev-button"
-                onClick={player.previous}
                 size="1em"
               />
             </IconButton>
             <IconButton
+              disabled={!player.currentTrack || player.isLoading}
               onClick={player.togglePlayPause}
               className="play-pause-button"
               aria-label={player.isPlaying ? "Pause" : "Play"}
@@ -220,6 +225,7 @@ export const PlayerDock: React.FC = () => {
               )}
             </IconButton>
             <IconButton
+              disabled={!player.currentTrack}
               onClick={player.next}
               className="next-button"
               aria-label="Next track"
@@ -235,9 +241,12 @@ export const PlayerDock: React.FC = () => {
               $isActive={player.repeatMode !== "none"}
             >
               {player.repeatMode === "one" ? (
-                <Repeat1 size="1em" />
+                <Repeat1 size="1em" strokeWidth={3} />
               ) : (
-                <Repeat size="1em" />
+                <Repeat
+                  {...(player.repeatMode !== "none" && { strokeWidth: 3 })}
+                  size="1em"
+                />
               )}
             </IconButton>
           </ControlRow>
@@ -250,8 +259,8 @@ export const PlayerDock: React.FC = () => {
               min="0"
               max={duration || 100}
               value={currentTime}
-              // onChange={handleProgressChange}
               onChange={handleSeek}
+              disabled={!player.currentTrack}
             />
             <span style={{ fontSize: "0.875rem", color: "#94a3b8" }}>
               {formatTime(duration)}
