@@ -182,18 +182,18 @@ export const AudioPlayerProvider: React.FC<{ children: React.ReactNode }> = ({
   // Get the previous track index
   const getPreviousIndex = useCallback(() => {
     const { currentIndex, playlist, repeatMode } = state;
-    if (!playlist) return;
 
-    // If we're less than 3 seconds into the song, go to previous track
-    // Otherwise, restart the current track
-    if (audioRef.current && audioRef.current.currentTime > 3) {
-      return currentIndex;
+    // If we're at the beginning of the playlist and repeat is off
+    if (currentIndex <= 0 && repeatMode !== "all") {
+      // Always return 0 (beginning of playlist) if we're already at the beginning
+      return 0;
     }
 
     const prevIndex = currentIndex - 1;
 
     if (prevIndex < 0) {
-      return repeatMode === "all" ? playlist.tracks.length - 1 : 0;
+      // If repeat all, go to the last track
+      return repeatMode === "all" ? playlist!.tracks!.length - 1 : 0;
     }
 
     return prevIndex;
@@ -252,11 +252,24 @@ export const AudioPlayerProvider: React.FC<{ children: React.ReactNode }> = ({
     skipTo(nextIndex);
   }, [getNextIndex, skipTo, attemptPause]);
 
+  // Updated previous function with reset current time behavior
   const previous = useCallback(() => {
+    if (!audioRef.current) return;
+
+    // If we're more than 3 seconds into the song, just restart current track
+    if (audioRef.current.currentTime > 3) {
+      audioRef.current.currentTime = 0;
+      // If we're playing, continue playing from the beginning
+      if (state.isPlaying) {
+        attemptPlay();
+      }
+      return;
+    }
+
+    // Otherwise go to the previous track
     const prevIndex = getPreviousIndex();
-    if (!prevIndex) return;
     skipTo(prevIndex);
-  }, [getPreviousIndex, skipTo]);
+  }, [getPreviousIndex, skipTo, state.isPlaying, attemptPlay]);
 
   // Playlist management
   const setPlaylist = useCallback(
