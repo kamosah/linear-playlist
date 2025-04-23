@@ -57,7 +57,7 @@ export const Playlist = () => {
     0
   );
   // TODO: Add error handling for routes
-  if (!playlist) throw new Error("Invalid Playlist ID");
+  // if (!playlist) throw new Error("Invalid Playlist ID");
 
   return (
     <PlaylistSongsContainer>
