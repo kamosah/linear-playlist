@@ -189,15 +189,10 @@ export const PlayerDock: React.FC = () => {
             <Shuffle size="1em" {...(player.shuffle && { strokeWidth: 3 })} />
           </IconButton>
           <IconButton disabled={!player.currentTrack} onClick={player.previous}>
-            <SkipBack
-              aria-label="Previous track"
-              className="prev-button"
-              size="1em"
-            />
+            <SkipBack aria-label="Previous track" size="1em" />
           </IconButton>
           <IconButton
             aria-label={player.isPlaying ? "Pause" : "Play"}
-            className="play-pause-button"
             disabled={!player.currentTrack || player.isLoading}
             onClick={player.togglePlayPause}
           >
@@ -206,7 +201,6 @@ export const PlayerDock: React.FC = () => {
           <IconButton
             disabled={!player.currentTrack}
             onClick={player.next}
-            className="next-button"
             aria-label="Next track"
           >
             <SkipForward size="1em" />
@@ -214,7 +208,6 @@ export const PlayerDock: React.FC = () => {
           <IconButton
             $isActive={player.repeatMode !== "none"}
             aria-label={`Repeat ${player.repeatMode}`}
-            className="repeat-button"
             onClick={player.toggleRepeat}
           >
             {player.repeatMode === "one" ? (
