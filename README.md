@@ -1,12 +1,11 @@
 
 ## Home View
 
-![Home View](src/images/linear_playlist_home_view.png "Optional title")
-
+<img width="1438" alt="linear_playlist_home_view" src="https://github.com/user-attachments/assets/47385db7-516a-4c28-908a-60411ea8ce37" />
 
 ## Playlist View (Tracks)
 
-![Playlist View](src/images/linear_playlist_playlist_view.png "Optional title")
+<img width="1440" alt="linear_playlist_app" src="https://github.com/user-attachments/assets/2c134fc9-d12e-4ff8-a191-82197715e25d" />
 
 # Linear Media Player
 
