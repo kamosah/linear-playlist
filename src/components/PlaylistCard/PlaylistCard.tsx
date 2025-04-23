@@ -61,7 +61,7 @@ export const PlaylistCard: React.FC<Playlist> = ({
     0
   );
   return (
-    <PlaylistCardContainer>
+    <PlaylistCardContainer data-testid="playlist-card">
       <Link to={`playlist/${id}`}>
         <PlaylistCardWrapper>
           <PlaylistName>{name}</PlaylistName>

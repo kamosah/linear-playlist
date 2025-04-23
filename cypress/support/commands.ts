@@ -35,3 +35,12 @@
 //     }
 //   }
 // }
+
+// Add custom command to check if audio is playing
+// @ts-expect-error Can be any name
+Cypress.Commands.add('isAudioPlaying', () => {
+    return cy.get('audio').then(($audio) => {
+      const audioElement = $audio[0] as HTMLAudioElement;
+      return audioElement.duration > 0 && !audioElement.paused && !audioElement.muted;
+    });
+  });

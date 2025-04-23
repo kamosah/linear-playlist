@@ -68,13 +68,13 @@ export const PlaylistListItem: React.FC<
     if (hover) {
       if (isPlayingNow) {
         return (
-          <IconButton onClick={onActionClick}>
+          <IconButton data-test-id="pause-circle" onClick={onActionClick}>
             <PauseCircle />
           </IconButton>
         );
       } else {
         return (
-          <IconButton onClick={onActionClick}>
+          <IconButton data-test-id="play-circle" onClick={onActionClick}>
             <PlayCircle />
           </IconButton>
         );
@@ -82,7 +82,7 @@ export const PlaylistListItem: React.FC<
     } else {
       if (isPlayingNow) {
         return (
-          <IconButton>
+          <IconButton data-testid="is-playing-now">
             <Volume2 color={INDIGO_700} />
           </IconButton>
         );
@@ -96,6 +96,7 @@ export const PlaylistListItem: React.FC<
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       onClick={onItemClick}
+      data-testid="playlist-list-item"
     >
       <PlaylistItemInfo>
         <PlaylistItemSong>{name}</PlaylistItemSong>

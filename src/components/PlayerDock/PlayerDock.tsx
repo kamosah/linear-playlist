@@ -172,7 +172,7 @@ export const PlayerDock: React.FC = () => {
         preload="auto"
       />
 
-      <SongInfo $displayInfo={displayInfo}>
+      <SongInfo data-testid="song-info" $displayInfo={displayInfo}>
         <SongTitle>{player.currentTrack?.name}</SongTitle>
         <ArtistName>{player?.playlist?.artist}</ArtistName>
       </SongInfo>
@@ -180,6 +180,7 @@ export const PlayerDock: React.FC = () => {
       <Controls>
         <ControlRow>
           <IconButton
+            data-testid="shuffle-button"
             $isActive={player.shuffle}
             aria-label="Shuffle"
             aria-pressed={player.shuffle}
@@ -187,13 +188,18 @@ export const PlayerDock: React.FC = () => {
           >
             <Shuffle size="1em" {...(player.shuffle && { strokeWidth: 3 })} />
           </IconButton>
-          <IconButton disabled={!player.currentTrack} onClick={player.previous}>
+          <IconButton
+            data-testid="previous-button"
+            disabled={!player.currentTrack}
+            onClick={player.previous}
+          >
             <SkipBack aria-label="Previous track" size="1em" />
           </IconButton>
           <IconButton
             aria-label={player.isPlaying ? "Pause" : "Play"}
             disabled={!player.currentTrack || player.isLoading}
             onClick={player.togglePlayPause}
+            data-testid="play-pause-button"
           >
             {getPlayerIcon()}
           </IconButton>
@@ -201,6 +207,7 @@ export const PlayerDock: React.FC = () => {
             aria-label="Next track"
             disabled={!player.currentTrack}
             onClick={player.next}
+            data-testid="next-button"
           >
             <SkipForward size="1em" />
           </IconButton>
@@ -208,6 +215,7 @@ export const PlayerDock: React.FC = () => {
             $isActive={player.repeatMode !== "none"}
             aria-label={`Repeat ${player.repeatMode}`}
             onClick={player.toggleRepeat}
+            data-testid="repeat-button"
           >
             {player.repeatMode === "one" ? (
               <Repeat1 size="1em" strokeWidth={3} />
