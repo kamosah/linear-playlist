@@ -30,11 +30,9 @@ const Dock = styled.div`
   ${mediaQueries.mobile} {
     grid-template-columns: 1fr;
   }
-
   ${mediaQueries.tablet} {
     grid-template-columns: repeat(1, 1fr);
   }
-
   ${mediaQueries.desktop} {
     grid-template-columns: repeat(3, 1fr);
   }
@@ -44,6 +42,7 @@ const SongInfo = styled.div<{ $displayInfo: boolean }>`
   display: ${({ $displayInfo }) => ($displayInfo ? "flex" : "hidden")};
   flex-direction: column;
   justify-content: center;
+
   ${mediaQueries.mobile} {
     display: none;
   }
@@ -181,10 +180,10 @@ export const PlayerDock: React.FC = () => {
       <Controls>
         <ControlRow>
           <IconButton
-            aria-pressed={player.shuffle}
-            aria-label="Shuffle"
-            onClick={player.toggleShuffle}
             $isActive={player.shuffle}
+            aria-label="Shuffle"
+            aria-pressed={player.shuffle}
+            onClick={player.toggleShuffle}
           >
             <Shuffle size="1em" {...(player.shuffle && { strokeWidth: 3 })} />
           </IconButton>
@@ -199,9 +198,9 @@ export const PlayerDock: React.FC = () => {
             {getPlayerIcon()}
           </IconButton>
           <IconButton
+            aria-label="Next track"
             disabled={!player.currentTrack}
             onClick={player.next}
-            aria-label="Next track"
           >
             <SkipForward size="1em" />
           </IconButton>

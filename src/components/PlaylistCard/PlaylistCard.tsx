@@ -12,7 +12,6 @@ import {
 import { Link } from "react-router-dom";
 
 const PlaylistCardContainer = styled.div`
-  /* TODO: Theme dependent */
   background-color: ${GRAY_800};
   border-color: ${GRAY_700};
   border-radius: ${({ theme }) => theme.border.lg};
@@ -28,8 +27,8 @@ const PlaylistName = styled.h5`
   color: ${GRAY_100};
   font-size: 1.5rem;
   font-weight: 700;
-  padding-bottom: 0.5rem;
   overflow: hidden;
+  padding-bottom: 0.5rem;
   text-overflow: ellipsis;
   white-space: nowrap;
 `;
@@ -43,8 +42,8 @@ const PlaylistArtist = styled.p`
 `;
 
 const PlaylistStats = styled.p`
-  font-size: 1rem;
   color: ${GRAY_400};
+  font-size: 1rem;
 `;
 
 const PlaylistCardWrapper = styled.div`

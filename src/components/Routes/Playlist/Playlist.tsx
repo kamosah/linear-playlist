@@ -13,12 +13,10 @@ const PlaylistSongsContainer = styled.div`
     padding-left: 1rem;
     padding-right: 1rem;
   }
-
   ${mediaQueries.tablet} {
     padding-left: 1rem;
     padding-right: 1rem;
   }
-
   ${mediaQueries.desktop} {
     padding-left: 1.5rem;
     padding-right: 1.5rem;
@@ -34,6 +32,7 @@ const StyledHeader = styled.h1`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+
   ${mediaQueries.tablet} {
     font-size: 4rem;
     line-height: 7rem;

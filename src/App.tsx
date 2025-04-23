@@ -6,14 +6,14 @@ import { AudioPlayerProvider, PlaylistContextProvider } from "./context";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Layout />, // Layout route with Sidebar and Main Content
+    element: <Layout />, // Layout route with Sidebar and Main Content and Player
     children: [
       {
         index: true, // Default route for the home page
         element: <Home />,
       },
       {
-        path: "playlist/:id",
+        path: "playlist/:id", // Playlist ID
         element: <Playlist />,
       },
     ],

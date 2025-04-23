@@ -14,7 +14,6 @@ const PlaylistsContainer = styled.div`
     padding-left: 1rem;
     padding-right: 1rem;
   }
-
   ${mediaQueries.tablet} {
     padding-left: 1rem;
     padding-right: 1rem;
@@ -35,7 +34,6 @@ const PlaylistsGrid = styled.div`
   ${mediaQueries.tablet} {
     grid-template-columns: repeat(2, 1fr);
   }
-
   ${mediaQueries.desktop} {
     grid-template-columns: repeat(3, 1fr);
   }
@@ -49,6 +47,7 @@ const StyledHeader = styled.h1`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+
   ${mediaQueries.tablet} {
     font-size: 4rem;
     line-height: 7rem;

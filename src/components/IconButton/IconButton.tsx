@@ -4,7 +4,7 @@ import { INDIGO_700 } from "../../styles";
 export const IconButton = styled.button<{ $isActive?: boolean }>`
   align-items: center;
   background: transparent;
-  border-radius: 9999px;
+  border-radius: 50%;
   color: ${({ $isActive }) => ($isActive ? INDIGO_700 : "#cbd5e1")};
   cursor: pointer;
   display: flex;
