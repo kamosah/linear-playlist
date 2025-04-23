@@ -52,7 +52,7 @@ export const Playlist = () => {
   const { id } = useParams() as { id: string };
   const { playlists } = usePlaylist();
   const playlist = playlists.find((playlist) => playlist.id === +id)!;
-  const totalDuration = playlist.tracks.reduce(
+  const totalDuration = (playlist?.tracks || []).reduce(
     (prev, track) => prev + track.duration,
     0
   );
@@ -62,9 +62,9 @@ export const Playlist = () => {
   return (
     <PlaylistSongsContainer>
       <StyledSubheader>Playlist</StyledSubheader>
-      <StyledHeader>{playlist.name}</StyledHeader>
+      <StyledHeader>{playlist?.name}</StyledHeader>
       <PlaylistData>
-        {playlist.year} • {playlist.tracks.length} Songs,{" "}
+        {playlist?.year} • {playlist?.tracks.length} Songs,{" "}
         {Math.ceil(totalDuration / 60)} min
       </PlaylistData>
       <PlaylistList {...playlist} />
