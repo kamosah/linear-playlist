@@ -185,16 +185,16 @@ export const SidebarNavigation = () => {
 
         <SidebarNavList>
           {playlists.map((playlist) => {
-            const onActionClick: React.MouseEventHandler<HTMLButtonElement> = (
-              e
-            ) => {
+            const onActionClick: React.MouseEventHandler<
+              HTMLButtonElement
+            > = async (e) => {
               e.preventDefault();
               e.stopPropagation();
               if (player?.playlist?.id !== playlist.id) {
-                player.setPlaylist(playlists[playlist.id - 1], 0);
-                player.play();
+                await player.setPlaylist(playlists[playlist.id - 1], 0);
+                await player.play();
               } else {
-                player.togglePlayPause();
+                await player.togglePlayPause();
               }
             };
             return (

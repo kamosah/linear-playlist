@@ -112,22 +112,25 @@ export const PlaylistList: React.FC<Playlist> = (playlist) => {
   const { artist, tracks, id } = playlist;
   const player = useAudioPlayer();
   const { playlists } = usePlaylist();
-  const onItemClick = (trackIndex: number) => () => {
-    player.setPlaylist(playlists[id - 1], trackIndex);
+  const onItemClick = (trackIndex: number) => async () => {
+    await player.setPlaylist(playlists[id - 1], trackIndex);
   };
   return (
     <PlaylistListContainer>
       {tracks.map((track, trackIndex) => {
-        const onActionClick: React.MouseEventHandler<HTMLButtonElement> = (
-          e
-        ) => {
+        const onActionClick: React.MouseEventHandler<
+          HTMLButtonElement
+        > = async (e) => {
           e.preventDefault();
           e.stopPropagation();
-          if (player?.playlist?.id !== id) {
-            player.setPlaylist(playlists[id - 1], 0);
-            player.play();
+          if (
+            player?.playlist?.id !== id ||
+            player?.currentTrack?.id !== track.id
+          ) {
+            await player.setPlaylist(playlists[playlist.id - 1], trackIndex);
+            await player.play();
           } else {
-            player.togglePlayPause();
+            await player.togglePlayPause();
           }
         };
         return (
