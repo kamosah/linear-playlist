@@ -2,7 +2,7 @@ import { styled } from "styled-components";
 import { PlayerDock } from "../../PlayerDock";
 import { SidebarNavigation } from "../../Sidebar";
 import { Outlet } from "react-router-dom";
-import { useAudioPlayer } from "../../../hooks";
+// import { useAudioPlayer } from "../../../hooks";
 
 const AppContainer = styled.div`
   display: grid;
@@ -22,17 +22,17 @@ const MainContainer = styled.div`
   padding: 1rem;
 `;
 
-const ErrorContainer = styled.div`
-  background-color: red;
-  border-radius: 0.5rem;
-  color: white;
-  height: 3rem;
-  width: 15rem;
-  position: fixed;
-  padding: 0.5rem 1rem;
-  top: 0;
-  right: 0;
-`;
+// const ErrorContainer = styled.div`
+//   background-color: red;
+//   border-radius: 0.5rem;
+//   color: white;
+//   height: 3rem;
+//   width: 15rem;
+//   position: fixed;
+//   padding: 0.5rem 1rem;
+//   top: 0;
+//   right: 0;
+// `;
 
 const PlayerContainer = styled.div`
   grid-area: player;

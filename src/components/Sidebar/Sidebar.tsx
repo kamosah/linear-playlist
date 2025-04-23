@@ -111,7 +111,6 @@ const SidebarNavItem: React.FC<
   Playlist & {
     isPlayingNow: boolean;
     $isActive: boolean;
-    playlistID: number;
     onActionClick: React.MouseEventHandler<HTMLButtonElement>;
   }
 > = ({ id, isPlayingNow, name, artist, onActionClick, $isActive }) => {
@@ -162,7 +161,7 @@ const SidebarNavItem: React.FC<
 
 export const SidebarNavigation = () => {
   const { id } = useParams() as { id: string };
-  const { playlists, playlistID } = usePlaylist();
+  const { playlists } = usePlaylist();
   const player = useAudioPlayer();
   return (
     <SidebarContainer aria-label="Sidebar">
@@ -206,7 +205,6 @@ export const SidebarNavigation = () => {
                   player?.playlist?.id === playlist.id && player.isPlaying
                 }
                 $isActive={+id === playlist.id}
-                playlistID={playlistID}
                 {...playlist}
               />
             );

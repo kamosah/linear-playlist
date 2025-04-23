@@ -368,6 +368,7 @@ export const AudioPlayerProvider: React.FC<{ children: React.ReactNode }> = ({
   // Initial setup
   useEffect(() => {
     if (!audioRef.current) {
+      // @ts-expect-error Used to change audio setting
       audioRef.current = new Audio();
       audioRef.current.preload = "auto";
     }
