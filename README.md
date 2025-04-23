@@ -1,11 +1,12 @@
 
 ## Home View
 
-<image src="./src/images/linear_playlist_home_view.png" />
+![Home View](src/images/linear_playlist_home_view.png "Optional title")
+
 
 ## Playlist View (Tracks)
 
-<image src="./src/images/linear_playlist_playlist_view.png" />
+![Playlist View](src/images/linear_playlist_playlist_view.png "Optional title")
 
 # Linear Media Player
 
