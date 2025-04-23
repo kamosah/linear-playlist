@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { Playlist } from "../types";
+import type { Playlist } from "../types";
 import DATA from "../data/playlists.json";
 
 export type PlaylistContextValue = {
