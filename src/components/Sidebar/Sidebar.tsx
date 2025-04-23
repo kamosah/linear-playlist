@@ -8,9 +8,9 @@ import { Playlist } from "../../types";
 import { IconButton } from "../IconButton";
 
 const SidebarContainer = styled.aside`
-  /* TODO: Responsive */
   border-right: 1px solid ${GRAY_500};
-  height: 100vh;
+  height: 100%;
+  overflow-y: auto;
   width: 18rem;
 `;
 
@@ -98,8 +98,8 @@ const PlaylistItemInfo = styled.div`
 `;
 
 const PlaylistItemAction = styled.div`
-  display: grid;
   align-items: center;
+  display: grid;
 `;
 
 const CenteredItem = styled.div`

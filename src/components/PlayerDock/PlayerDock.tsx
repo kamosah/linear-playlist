@@ -20,15 +20,11 @@ export const DOCK_HEIGHT = "6rem";
 const Dock = styled.div`
   background-color: ${GRAY_800};
   border-top: 2px solid ${GRAY_700};
-  bottom: 0;
   display: grid;
   grid-template-columns: 1fr;
   height: ${DOCK_HEIGHT};
-  left: 0;
   padding: 0 2rem;
-  position: fixed;
   width: 100%;
-  z-index: 50;
 
   @media (min-width: 768px) {
     grid-template-columns: repeat(3, 1fr);

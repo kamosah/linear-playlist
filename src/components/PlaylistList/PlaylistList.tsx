@@ -50,8 +50,8 @@ const CenteredItem = styled.div`
 
 const PlaylistListContainer = styled.ul`
   max-height: calc(100vh - ${DOCK_HEIGHT} - 14rem);
-  overflow-y: scroll;
-  padding: 1rem 0rem;
+  overflow-y: auto;
+  padding-bottom: 1rem;
   width: 100%;
 `;
 

@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { usePlaylist } from "../../../hooks";
 import { PlaylistList } from "../../PlaylistList";
 import { styled } from "styled-components";
-import { GRAY_300 } from "../../../styles";
+import { GRAY_500 } from "../../../styles";
 
 const PlaylistSongsContainer = styled.div`
   padding-top: 1rem;
@@ -11,12 +11,18 @@ const PlaylistSongsContainer = styled.div`
 
 const StyledHeader = styled.h1`
   color: ${({ theme }) => theme.colors.text};
-  font-weight: 700;
   font-size: 6rem;
+  font-weight: 700;
+  line-height: 8rem;
 `;
 
 const PlaylistData = styled.h2`
-  color: ${GRAY_300};
+  color: ${GRAY_500};
+  padding-bottom: 1rem;
+`;
+
+const StyledSubheader = styled.h2`
+  color: ${({ theme }) => theme.colors.text};
 `;
 
 export const Playlist = () => {
@@ -32,10 +38,11 @@ export const Playlist = () => {
 
   return (
     <PlaylistSongsContainer>
+      <StyledSubheader>Playlist</StyledSubheader>
       <StyledHeader>{playlist.name}</StyledHeader>
-      <PlaylistData>Playlist • {playlist.year}</PlaylistData>
       <PlaylistData>
-        {playlist.tracks.length} Songs • {Math.ceil(totalDuration / 60)} min
+        {playlist.year} • {playlist.tracks.length} Songs,{" "}
+        {Math.ceil(totalDuration / 60)} min
       </PlaylistData>
       <PlaylistList {...playlist} />
     </PlaylistSongsContainer>
