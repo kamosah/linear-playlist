@@ -1,28 +1,58 @@
 import { styled } from "styled-components";
 import { usePlaylist } from "../../../hooks";
-import { DOCK_HEIGHT } from "../../PlayerDock";
 import { PlaylistCard } from "../../PlaylistCard/PlaylistCard";
 import { GRAY_300 } from "../../../styles";
+import { mediaQueries } from "../../../styles/responsive";
 
 const PlaylistsContainer = styled.div`
-  max-height: calc(100vh - ${DOCK_HEIGHT} - 14rem);
-  overflow-y: scroll;
+  overflow-y: auto;
   padding-top: 1rem;
   padding: 1rem 0rem;
-  width: 56rem;
+  width: 100%;
+
+  ${mediaQueries.mobile} {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  ${mediaQueries.tablet} {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  ${mediaQueries.desktop} {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    max-width: 56rem;
+  }
 `;
 
 const PlaylistsGrid = styled.div`
   display: grid;
   grid-gap: 1rem;
-  grid-template-columns: repeat(3, 1fr);
   padding: 1rem 0;
+  grid-template-columns: 1fr;
+
+  ${mediaQueries.tablet} {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  ${mediaQueries.desktop} {
+    grid-template-columns: repeat(3, 1fr);
+  }
 `;
 
 const StyledHeader = styled.h1`
   color: ${({ theme }) => theme.colors.text};
+  font-size: 3rem;
   font-weight: 700;
-  font-size: 6rem;
+  line-height: 6rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  ${mediaQueries.tablet} {
+    font-size: 4rem;
+    line-height: 7rem;
+  }
 `;
 
 const PlaylistData = styled.h2`

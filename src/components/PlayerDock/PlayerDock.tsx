@@ -14,6 +14,7 @@ import { GRAY_700, GRAY_800 } from "../../styles";
 import { formatTime } from "../../utils";
 import { useAudioPlayer } from "../../hooks";
 import { IconButton } from "../IconButton";
+import { mediaQueries } from "../../styles/responsive";
 
 export const DOCK_HEIGHT = "6rem";
 
@@ -26,7 +27,15 @@ const Dock = styled.div`
   padding: 0 2rem;
   width: 100%;
 
-  @media (min-width: 768px) {
+  ${mediaQueries.mobile} {
+    grid-template-columns: 1fr;
+  }
+
+  ${mediaQueries.tablet} {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  ${mediaQueries.desktop} {
     grid-template-columns: repeat(3, 1fr);
   }
 `;
@@ -35,6 +44,16 @@ const SongInfo = styled.div<{ $displayInfo: boolean }>`
   display: ${({ $displayInfo }) => ($displayInfo ? "flex" : "hidden")};
   flex-direction: column;
   justify-content: center;
+  ${mediaQueries.mobile} {
+    display: none;
+  }
+  ${mediaQueries.tablet} {
+    display: none;
+    grid-template-columns: repeat(3, 1fr);
+  }
+  ${mediaQueries.desktop} {
+    display: flex;
+  }
 `;
 
 const SongTitle = styled.span`

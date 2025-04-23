@@ -29,11 +29,17 @@ const PlaylistName = styled.h5`
   font-size: 1.5rem;
   font-weight: 700;
   padding-bottom: 0.5rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 const PlaylistArtist = styled.p`
   color: ${GRAY_300};
   padding-bottom: ${({ theme }) => theme.spacing.sm};
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 const PlaylistStats = styled.p`

@@ -1,5 +1,5 @@
 import { styled } from "styled-components";
-import { DOCK_HEIGHT, PlayerDock } from "../../PlayerDock";
+import { PlayerDock } from "../../PlayerDock";
 import { SidebarNavigation } from "../../Sidebar";
 import { Outlet } from "react-router-dom";
 import { useAudioPlayer } from "../../../hooks";
@@ -43,10 +43,10 @@ const SidebarContainer = styled.div`
 `;
 
 export const Layout = () => {
-  const player = useAudioPlayer();
+  // const player = useAudioPlayer();
   return (
     <AppContainer>
-      {player.error && <ErrorContainer>{player.error}</ErrorContainer>}
+      {/* {player.error && <ErrorContainer>{player.error}</ErrorContainer>} */}
       <SidebarContainer>
         <SidebarNavigation />
       </SidebarContainer>

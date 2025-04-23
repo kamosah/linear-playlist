@@ -3,17 +3,41 @@ import { usePlaylist } from "../../../hooks";
 import { PlaylistList } from "../../PlaylistList";
 import { styled } from "styled-components";
 import { GRAY_500 } from "../../../styles";
+import { mediaQueries } from "../../../styles/responsive";
 
 const PlaylistSongsContainer = styled.div`
   padding-top: 1rem;
-  width: 56rem;
+  width: 100%;
+
+  ${mediaQueries.mobile} {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  ${mediaQueries.tablet} {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  ${mediaQueries.desktop} {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    max-width: 56rem;
+  }
 `;
 
 const StyledHeader = styled.h1`
   color: ${({ theme }) => theme.colors.text};
-  font-size: 6rem;
+  font-size: 3rem;
   font-weight: 700;
-  line-height: 8rem;
+  line-height: 6rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  ${mediaQueries.tablet} {
+    font-size: 4rem;
+    line-height: 7rem;
+  }
 `;
 
 const PlaylistData = styled.h2`
