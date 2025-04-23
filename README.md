@@ -1,3 +1,12 @@
+
+## Home View
+
+<image src="./src/images/linear_playlist_home_view.png" />
+
+## Playlist View (Tracks)
+
+<image src="./src/images/linear_playlist_playlist_view.png" />
+
 # Linear Media Player
 
 Hey, thanks for taking the time to work on this exercise. We're excited to see what you come up with –
@@ -41,37 +50,14 @@ This project includes music from the following albums:
 
 --------------------------------------------------------------------------------------------------------------
 
-# TODO
+### Note to Reviewer
+
+The audio player requires an initial click to load metadata before playback controls become fully functional. After this first interaction, all subsequent clicks will operate the audio player as expected. This two-step process is a known limitation in the current implementation that I plan to address in future iterations by enabling immediate playback without the initial click.
 
 ## Requirements
 
 - [x] play through a playlist of audio files
-- [ ] display info on the currently playing track
+- [x] display info on the currently playing track
 - [x] supporting basic functionality
   - [x] play/pause
   - [x] next track
-
-## Extra Features
-
-- [ ] CSS Layout
-- [ ] Responsive
-- [ ] Accessibility
-- [ ] Test on requirements
-- [ ] Search
-- [ ] Dark mode (Linear Theme)
-- [ ] CSS Animations Framer
-- [ ] Library | Home Layout
-- [ ] Recommendation of similar music based on playing activity
-- [ ] Recently Played
-- [ ] Add playlist image icon
-- [ ] Local Storage (Playing activity)
-- [ ] Create a new playlist
-- [ ] Sort Playlists by
-- [ ] Add Song
-- [ ] Edit playlist name
-- [ ] Add song / playlist thumbnail
-- [ ] Share playlist
-- [ ] Start radio
-- [ ] Create Queue
-- [ ] Add to Queue
-- [ ] Framer Motion - Animations
