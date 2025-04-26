@@ -7,34 +7,14 @@
 
 <img width="1440" alt="linear_playlist_app" src="https://github.com/user-attachments/assets/2c134fc9-d12e-4ff8-a191-82197715e25d" />
 
-# Linear Media Player
-
-Hey, thanks for taking the time to work on this exercise. We're excited to see what you come up with –
-the goal is to create an audio player for playing a predefined playlist of audio files. Think of it
-like a stripped-down version of Spotify or the classic Winamp.
-
 ### Getting started
 
-Clone this repo which was created _just for you_, make it yours and let us know once the project is complete by pushing
-your commits and replying through email. 
-
-You can use `npm` to install the dependencies and run the basic React project. Feel free to add any additional libraries 
-or frameworks you need.
+You can use `npm` to install the dependencies and run the basic React project.
 
 ```bash
 npm install
 npm run dev
 ```
-
-### Requirements
-
-We'd like to see a working media player that can play through a playlist of audio files (included), display info on the
-currently playing track and supporting basic functionality like play/pause, next track, etc. Beyond that, feel free to get
-creative with the design and functionality.
-
-Plan on spending 2-4 hours to complete this exercise.
-
-Please update this README to include a screenshot of the completed exercise at the top.
 
 ### Playlist data
 
