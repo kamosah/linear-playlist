@@ -128,8 +128,11 @@ export const PlaylistList: React.FC<Playlist> = (playlist) => {
             player?.playlist?.id !== id ||
             player?.currentTrack?.id !== track.id
           ) {
-            await player.setPlaylist(playlists[playlist.id - 1], trackIndex);
-            await player.play();
+            await player.setPlaylist(
+              playlists[playlist.id - 1],
+              trackIndex,
+              true
+            );
           } else {
             await player.togglePlayPause();
           }

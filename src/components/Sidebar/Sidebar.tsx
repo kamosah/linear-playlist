@@ -191,8 +191,7 @@ export const SidebarNavigation = () => {
               e.preventDefault();
               e.stopPropagation();
               if (player?.playlist?.id !== playlist.id) {
-                await player.setPlaylist(playlists[playlist.id - 1], 0);
-                await player.play();
+                await player.setPlaylist(playlists[playlist.id - 1], 0, true);
               } else {
                 await player.togglePlayPause();
               }

@@ -32,7 +32,11 @@ interface PlayerContextType extends PlayerState {
   skipTo: (index: number) => void;
 
   // Playlist management
-  setPlaylist: (playlist: Playlist, initialIndex?: number) => void;
+  setPlaylist: (
+    playlist: Playlist,
+    initialIndex?: number,
+    autoPlay?: boolean
+  ) => void;
 
   // Settings
   toggleShuffle: () => void;
@@ -273,7 +277,11 @@ export const AudioPlayerProvider: React.FC<{ children: React.ReactNode }> = ({
 
   // Playlist management
   const setPlaylist = useCallback(
-    (playlist: Playlist, initialIndex: number = 0) => {
+    (
+      playlist: Playlist,
+      initialIndex: number = 0,
+      autoPlay: boolean = false
+    ) => {
       const validIndex =
         playlist.tracks.length > 0
           ? Math.max(0, Math.min(initialIndex, playlist.tracks.length - 1))
@@ -287,10 +295,10 @@ export const AudioPlayerProvider: React.FC<{ children: React.ReactNode }> = ({
       }));
 
       if (validIndex >= 0) {
-        loadTrack(playlist.tracks[validIndex], state.isPlaying);
+        loadTrack(playlist.tracks[validIndex], autoPlay || state.isPlaying);
       }
     },
-    [state.isPlaying, loadTrack]
+    [loadTrack, state.isPlaying]
   );
 
   // Settings
