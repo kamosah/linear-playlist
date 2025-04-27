@@ -39,7 +39,7 @@ const StyledHeader = styled.h1`
   }
 `;
 
-const PlaylistData = styled.h2`
+const PlaylistData = styled.h3`
   color: ${GRAY_500};
   padding-bottom: 1rem;
 `;
