@@ -4,6 +4,7 @@ import { PlaylistList } from "../../PlaylistList";
 import { styled } from "styled-components";
 import { GRAY_500 } from "../../../styles";
 import { mediaQueries } from "../../../styles/responsive";
+import { OverflowWrapper } from "../..";
 
 const PlaylistSongsContainer = styled.div`
   padding-top: 1rem;
@@ -29,9 +30,6 @@ const StyledHeader = styled.h1`
   font-size: 3rem;
   font-weight: 700;
   line-height: 6rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 
   ${mediaQueries.tablet} {
     font-size: 4rem;
@@ -62,7 +60,9 @@ export const Playlist = () => {
   return (
     <PlaylistSongsContainer>
       <StyledSubheader>Playlist</StyledSubheader>
-      <StyledHeader>{playlist?.name}</StyledHeader>
+      <OverflowWrapper>
+        <StyledHeader>{playlist?.name}</StyledHeader>
+      </OverflowWrapper>
       <PlaylistData>
         {playlist?.year} • {playlist?.tracks.length} Songs,{" "}
         {Math.ceil(totalDuration / 60)} min

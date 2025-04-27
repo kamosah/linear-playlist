@@ -44,8 +44,6 @@ const StyledHeader = styled.h1`
   font-size: 3rem;
   font-weight: 700;
   line-height: 6rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
   white-space: nowrap;
 
   ${mediaQueries.tablet} {

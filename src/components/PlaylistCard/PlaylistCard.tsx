@@ -10,6 +10,7 @@ import {
   GRAY_800,
 } from "../../styles";
 import { Link } from "react-router-dom";
+import { OverflowWrapper } from "..";
 
 const PlaylistCardContainer = styled.div`
   background-color: ${GRAY_800};
@@ -27,18 +28,12 @@ const PlaylistName = styled.h5`
   color: ${GRAY_100};
   font-size: 1.5rem;
   font-weight: 700;
-  overflow: hidden;
   padding-bottom: 0.5rem;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 `;
 
 const PlaylistArtist = styled.p`
   color: ${GRAY_300};
   padding-bottom: ${({ theme }) => theme.spacing.sm};
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 `;
 
 const PlaylistStats = styled.p`
@@ -64,8 +59,12 @@ export const PlaylistCard: React.FC<Playlist> = ({
     <PlaylistCardContainer data-testid="playlist-card">
       <Link to={`playlist/${id}`}>
         <PlaylistCardWrapper>
-          <PlaylistName>{name}</PlaylistName>
-          <PlaylistArtist>{artist}</PlaylistArtist>
+          <OverflowWrapper>
+            <PlaylistName>{name}</PlaylistName>
+          </OverflowWrapper>
+          <OverflowWrapper>
+            <PlaylistArtist>{artist}</PlaylistArtist>
+          </OverflowWrapper>
           <PlaylistStats>
             {tracks.length} Songs • {Math.ceil(totalDuration / 60)} min
           </PlaylistStats>
