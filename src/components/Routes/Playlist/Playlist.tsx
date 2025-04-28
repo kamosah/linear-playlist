@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { usePlaylist } from "../../../hooks";
+import { useAudioPlayer, usePlaylist } from "../../../hooks";
 import { PlaylistList } from "../../PlaylistList";
 import { styled } from "styled-components";
 import { GRAY_500 } from "../../../styles";
@@ -49,13 +49,16 @@ const StyledSubheader = styled.h2`
 export const Playlist = () => {
   const { id } = useParams() as { id: string };
   const { playlists } = usePlaylist();
+  const player = useAudioPlayer();
   const playlist = playlists.find((playlist) => playlist.id === +id)!;
   const totalDuration = (playlist?.tracks || []).reduce(
     (prev, track) => prev + track.duration,
     0
   );
-  // TODO: Add error handling for routes
-  if (!playlist) throw new Error("Invalid Playlist ID");
+
+  if (!playlist) {
+    player.setPlaylist(playlists[+id - 1]);
+  }
 
   return (
     <PlaylistSongsContainer>
