@@ -1,7 +1,6 @@
 import { styled } from "styled-components";
 import { usePlaylist } from "../../../hooks";
 import { PlaylistCard } from "../../PlaylistCard/PlaylistCard";
-import { GRAY_300 } from "../../../styles";
 import { mediaQueries } from "../../../styles/responsive";
 
 const PlaylistsContainer = styled.div`
