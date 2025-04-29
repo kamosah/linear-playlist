@@ -23,7 +23,7 @@ export const DARK_THEME: DefaultTheme = {
   colors: {
     active: GRAY_800,
     badge: "#1e293b",
-    border: GRAY_100,
+    border: GRAY_700,
     bg: GRAY_900,
     hover: GRAY_700,
     muted: GRAY_500,
