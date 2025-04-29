@@ -1,6 +1,9 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Home, Layout, Playlist } from "./components/Routes";
 import { AudioPlayerProvider, PlaylistContextProvider } from "./context";
+import { useEffect, useState } from "react";
+import { ThemeProvider } from "styled-components";
+import { DARK_THEME, LIGHT_THEME } from "./styles/theme";
 
 // Create the router configuration
 const router = createBrowserRouter([
@@ -21,12 +24,31 @@ const router = createBrowserRouter([
 ]);
 
 export const App = () => {
+  const [theme, setTheme] = useState(
+    window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? DARK_THEME
+      : LIGHT_THEME
+  );
+
+  // Set theme based on system preference
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    const handleChange = () => {
+      setTheme(mediaQuery.matches ? DARK_THEME : LIGHT_THEME);
+    };
+
+    mediaQuery.addEventListener("change", handleChange);
+    return () => mediaQuery.removeEventListener("change", handleChange);
+  }, []);
+
   return (
-    <AudioPlayerProvider>
-      <PlaylistContextProvider>
-        <RouterProvider router={router} />
-      </PlaylistContextProvider>
-    </AudioPlayerProvider>
+    <ThemeProvider theme={theme}>
+      <AudioPlayerProvider>
+        <PlaylistContextProvider>
+          <RouterProvider router={router} />
+        </PlaylistContextProvider>
+      </AudioPlayerProvider>
+    </ThemeProvider>
   );
 };
 

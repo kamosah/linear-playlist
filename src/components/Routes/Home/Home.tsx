@@ -53,7 +53,7 @@ const StyledHeader = styled.h1`
 `;
 
 const PlaylistData = styled.h2`
-  color: ${GRAY_300};
+  color: ${({ theme }) => theme.colors.muted};
 `;
 
 export const Home = () => {

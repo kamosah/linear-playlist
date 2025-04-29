@@ -1,11 +1,11 @@
 import { styled } from "styled-components";
-import { INDIGO_700 } from "../../styles";
 
 export const IconButton = styled.button<{ $isActive?: boolean }>`
   align-items: center;
   background: transparent;
   border-radius: 50%;
-  color: ${({ $isActive }) => ($isActive ? INDIGO_700 : "#cbd5e1")};
+  color: ${({ theme, $isActive }) =>
+    $isActive ? theme.colors.secondary : theme.colors.text};
   cursor: pointer;
   display: flex;
   justify-content: center;
@@ -13,8 +13,8 @@ export const IconButton = styled.button<{ $isActive?: boolean }>`
   transition: background-color 0.2s ease;
 
   &:hover {
-    background: #334155;
-    color: ${({ $isActive }) => ($isActive ? INDIGO_700 : "#cbd5e1")};
+    color: ${({ $isActive, theme }) =>
+      $isActive ? theme.colors.secondary : theme.colors.text};
   }
 
   &:focus {

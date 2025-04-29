@@ -1,38 +1,30 @@
 import { styled } from "styled-components";
 import type { Playlist } from "../../types";
-import {
-  GRAY_100,
-  GRAY_200,
-  GRAY_300,
-  GRAY_400,
-  GRAY_600,
-  GRAY_700,
-  GRAY_800,
-} from "../../styles";
+import { GRAY_400, GRAY_700 } from "../../styles";
 import { Link } from "react-router-dom";
 import { OverflowWrapper } from "..";
 
 const PlaylistCardContainer = styled.div`
-  background-color: ${GRAY_800};
+  background-color: ${({ theme }) => theme.colors.surface};
   border-color: ${GRAY_700};
   border-radius: ${({ theme }) => theme.border.lg};
-  border: ${GRAY_200};
+  border: ${({ theme }) => `1px solid ${theme.colors.border}`};
   box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
   width: 100%;
   &:hover {
-    background-color: ${GRAY_600};
+    background-color: ${({ theme }) => theme.colors.hover};
   }
 `;
 
 const PlaylistName = styled.h5`
-  color: ${GRAY_100};
+  color: ${({ theme }) => theme.colors.text};
   font-size: 1.5rem;
   font-weight: 700;
   padding-bottom: 0.5rem;
 `;
 
 const PlaylistArtist = styled.p`
-  color: ${GRAY_300};
+  color: ${({ theme }) => theme.colors.muted};
   padding-bottom: ${({ theme }) => theme.spacing.sm};
 `;
 

@@ -1,11 +1,11 @@
 import { PauseCircle, PlayCircle, Volume2 } from "lucide-react";
 import type { Playlist, Track } from "../../types";
 import { formatTime } from "../../utils";
-import { styled } from "styled-components";
+import { styled, useTheme } from "styled-components";
 import { useState } from "react";
 import { DOCK_HEIGHT } from "../PlayerDock";
 import { useAudioPlayer, usePlaylist } from "../../hooks";
-import { INDIGO_700 } from "../../styles";
+import { GRAY_950, INDIGO_700 } from "../../styles";
 import { IconButton } from "../IconButton";
 
 type PlaylistItem = {
@@ -63,6 +63,7 @@ export const PlaylistListItem: React.FC<
   }
 > = ({ artist, duration, name, onActionClick, isPlayingNow, onItemClick }) => {
   const [hover, setHover] = useState(false);
+  const theme = useTheme();
 
   const displayAction = () => {
     if (hover) {
@@ -83,7 +84,7 @@ export const PlaylistListItem: React.FC<
       if (isPlayingNow) {
         return (
           <IconButton data-testid="is-playing-now">
-            <Volume2 color={INDIGO_700} />
+            <Volume2 color={theme.mode === "dark" ? INDIGO_700 : GRAY_950} />
           </IconButton>
         );
       } else {

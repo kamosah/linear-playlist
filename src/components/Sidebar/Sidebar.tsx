@@ -1,6 +1,6 @@
 import { House, PauseCircle, PlayCircle, Volume2 } from "lucide-react";
-import { styled } from "styled-components";
-import { GRAY_100, GRAY_500, GRAY_800, INDIGO_700 } from "../../styles";
+import { styled, useTheme } from "styled-components";
+import { GRAY_950, INDIGO_700 } from "../../styles";
 import { Link, useParams } from "react-router-dom";
 import { useAudioPlayer, usePlaylist } from "../../hooks";
 import React, { useState } from "react";
@@ -8,7 +8,7 @@ import { Playlist } from "../../types";
 import { IconButton } from "../IconButton";
 
 const SidebarContainer = styled.aside`
-  border-right: 1px solid ${GRAY_500};
+  border-right: ${({ theme }) => `1px solid ${theme.colors.border}`};
   height: 100%;
   overflow-y: auto;
   width: 18rem;
@@ -46,7 +46,8 @@ const SidebarHeadItem = styled.li`
 `;
 
 const NavItemContainer = styled.li<{ $isActive: boolean }>`
-  background-color: ${({ $isActive }) => $isActive && GRAY_800};
+  background-color: ${({ $isActive, theme }) =>
+    $isActive && theme.colors.active};
   border-radius: ${({ theme }) => theme.border.lg};
   color: ${({ theme }) => theme.colors.text};
   cursor: pointer;
@@ -59,7 +60,7 @@ const NavItemContainer = styled.li<{ $isActive: boolean }>`
 `;
 
 const SidebarNavList = styled.ul`
-  border-top: 1px solid ${GRAY_100};
+  border-top: ${({ theme }) => `1px solid ${theme.colors.border}`};
   color: ${({ theme }) => theme.colors.text};
   font-size: 0.875rem;
   padding-bottom: 1rem;
@@ -115,6 +116,7 @@ const SidebarNavItem: React.FC<
   }
 > = ({ id, isPlayingNow, name, artist, onActionClick, $isActive }) => {
   const [hover, setHover] = useState(false);
+  const theme = useTheme();
   const displayAction = () => {
     if (hover) {
       if (isPlayingNow) {
@@ -134,7 +136,7 @@ const SidebarNavItem: React.FC<
       if (isPlayingNow) {
         return (
           <IconButton>
-            <Volume2 color={INDIGO_700} />
+            <Volume2 color={theme.mode === "dark" ? INDIGO_700 : GRAY_950} />
           </IconButton>
         );
       }

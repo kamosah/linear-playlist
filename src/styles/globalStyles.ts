@@ -1,4 +1,5 @@
 import { createGlobalStyle } from "styled-components";
+import { DARK_LINEAR_GRADIENT, LIGHT_LINEAR_GRADIENT } from "./theme";
 
 export const GlobalStyles = createGlobalStyle`
   /* Reset styles previously provided by TailwindCSS */
@@ -9,7 +10,8 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   body {
-    background: linear-gradient(to bottom, oklch(25% 0.035 261.692), oklch(13% 0.028 261.692));
+    background: ${({ theme }) =>
+      theme.mode === "dark" ? DARK_LINEAR_GRADIENT : LIGHT_LINEAR_GRADIENT};
     color: ${({ theme }) => theme.colors.text};
     font-family: 'Inter', sans-serif;
     margin: 0;

@@ -10,7 +10,6 @@ import {
   SkipBack,
   SkipForward,
 } from "lucide-react";
-import { GRAY_700, GRAY_800 } from "../../styles";
 import { formatTime } from "../../utils";
 import { useAudioPlayer } from "../../hooks";
 import { IconButton } from "../IconButton";
@@ -19,8 +18,8 @@ import { mediaQueries } from "../../styles/responsive";
 export const DOCK_HEIGHT = "6rem";
 
 const Dock = styled.div`
-  background-color: ${GRAY_800};
-  border-top: 2px solid ${GRAY_700};
+  background-color: ${({ theme }) => theme.colors.surface};
+  border-top: ${({ theme }) => `2px solid ${theme.colors.border}`};
   display: grid;
   grid-template-columns: 1fr;
   height: ${DOCK_HEIGHT};
@@ -56,7 +55,7 @@ const SongInfo = styled.div<{ $displayInfo: boolean }>`
 `;
 
 const SongTitle = styled.span`
-  color: white;
+  color: ${({ theme }) => theme.colors.text};
   font-size: 0.875rem;
   overflow: hidden;
   padding-left: 0.75rem;
@@ -66,7 +65,7 @@ const SongTitle = styled.span`
 `;
 
 const ArtistName = styled.span`
-  color: #94a3b8;
+  color: ${({ theme }) => theme.colors.muted};
   font-size: 0.75rem;
   overflow: hidden;
   padding-bottom: 0.25rem;
