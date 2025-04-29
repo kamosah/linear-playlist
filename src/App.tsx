@@ -4,6 +4,7 @@ import { AudioPlayerProvider, PlaylistContextProvider } from "./context";
 import { useEffect, useState } from "react";
 import { ThemeProvider } from "styled-components";
 import { DARK_THEME, LIGHT_THEME } from "./styles/theme";
+import { GlobalStyles } from "./styles";
 
 // Create the router configuration
 const router = createBrowserRouter([
@@ -45,6 +46,7 @@ export const App = () => {
     <ThemeProvider theme={theme}>
       <AudioPlayerProvider>
         <PlaylistContextProvider>
+          <GlobalStyles />
           <RouterProvider router={router} />
         </PlaylistContextProvider>
       </AudioPlayerProvider>
