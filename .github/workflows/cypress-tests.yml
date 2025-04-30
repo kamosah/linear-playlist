@@ -25,17 +25,24 @@ jobs:
         run: npm install
 
       - name: Run Cypress tests
+        id: cypress
         run: npx cypress run
 
+      - name: Check for Cypress artifacts
+        id: check-artifacts
+        run: |
+          echo "videos-exist=$(if [ -d cypress/videos ]; then echo true; else echo false; fi)" >> $GITHUB_ENV
+          echo "screenshots-exist=$(if [ -d cypress/screenshots ]; then echo true; else echo false; fi)" >> $GITHUB_ENV
+
       - name: Upload Cypress videos
-        if: always()
+        if: always() && env.videos-exist == 'true'
         uses: actions/upload-artifact@v3
         with:
           name: cypress-videos
           path: cypress/videos
 
       - name: Upload Cypress screenshots
-        if: always()
+        if: always() && env.screenshots-exist == 'true'
         uses: actions/upload-artifact@v3
         with:
           name: cypress-screenshots

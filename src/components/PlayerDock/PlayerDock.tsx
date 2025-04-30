@@ -164,7 +164,7 @@ export const PlayerDock: React.FC = () => {
   const displayInfo = Boolean(player.currentTrack) && Boolean(player.playlist);
 
   return (
-    <Dock>
+    <Dock data-testid="audio-player">
       <audio
         ref={player.audioRef}
         src={player.audioRef.current?.src}
@@ -226,7 +226,7 @@ export const PlayerDock: React.FC = () => {
             )}
           </IconButton>
         </ControlRow>
-        <Progress>
+        <Progress data-testid="progress-bar">
           <span style={{ fontSize: "0.875rem", color: "#94a3b8" }}>
             {formatTime(currentTime)}
           </span>
