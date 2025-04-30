@@ -1,4 +1,8 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Navigate,
+} from "react-router-dom";
 import { Home, Layout, Playlist } from "./components/Routes";
 import { AudioPlayerProvider, PlaylistContextProvider } from "./context";
 import { useEffect, useState } from "react";
@@ -11,6 +15,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Layout />, // Layout route with Sidebar and Main Content and Player
+    errorElement: <Navigate to="/" replace />, // Redirect to home page on error
     children: [
       {
         index: true, // Default route for the home page
