@@ -36,14 +36,14 @@ jobs:
 
       - name: Upload Cypress videos
         if: always() && env.videos-exist == 'true'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v3.1.0
         with:
           name: cypress-videos
           path: cypress/videos
 
       - name: Upload Cypress screenshots
         if: always() && env.screenshots-exist == 'true'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v3.1.0
         with:
           name: cypress-screenshots
           path: cypress/screenshots
