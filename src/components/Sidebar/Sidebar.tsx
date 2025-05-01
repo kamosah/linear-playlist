@@ -7,10 +7,9 @@ import React, { useState } from "react";
 import { Playlist } from "../../types";
 import { IconButton } from "../IconButton";
 
-const SidebarContainer = styled.aside`
+const SidebarNavigationContainer = styled.aside`
   border-right: ${({ theme }) => `1px solid ${theme.colors.border}`};
   height: 100%;
-  overflow-y: auto;
   width: 18rem;
 `;
 
@@ -25,11 +24,17 @@ const SidebarSection = styled.div`
 `;
 
 const SidebarHeadList = styled.ul`
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  background-clip: padding-box;
   color: ${({ theme }) => theme.colors.text};
   font-size: 0.875rem;
   padding-bottom: 1rem;
   padding-top: 1rem;
+  position: sticky;
+  top: 0;
   width: 100%;
+  z-index: 10;
 `;
 
 const SidebarHeadItem = styled.li`
@@ -66,6 +71,7 @@ const SidebarNavList = styled.ul`
   padding-bottom: 1rem;
   padding-top: 1rem;
   width: 100%;
+  overflow-y: auto;
 `;
 
 const SidebarNavItemText = styled.p`
@@ -166,7 +172,7 @@ export const SidebarNavigation = () => {
   const { playlists } = usePlaylist();
   const player = useAudioPlayer();
   return (
-    <SidebarContainer aria-label="Sidebar">
+    <SidebarNavigationContainer aria-label="Sidebar">
       <SidebarSection>
         <SidebarHeadList>
           <SidebarHeadItem>
@@ -212,6 +218,6 @@ export const SidebarNavigation = () => {
           })}
         </SidebarNavList>
       </SidebarSection>
-    </SidebarContainer>
+    </SidebarNavigationContainer>
   );
 };

@@ -39,11 +39,19 @@ const StyledHeader = styled.h1`
 
 const PlaylistData = styled.h3`
   color: ${GRAY_500};
-  padding-bottom: 1rem;
 `;
 
 const StyledSubheader = styled.h2`
   color: ${({ theme }) => theme.colors.text};
+`;
+
+const HeaderContainer = styled.div`
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  background-clip: padding-box;
+  position: sticky;
+  top: 2rem;
+  z-index: 10;
 `;
 
 export const Playlist = () => {
@@ -62,14 +70,16 @@ export const Playlist = () => {
 
   return (
     <PlaylistSongsContainer>
-      <StyledSubheader>Playlist</StyledSubheader>
-      <OverflowWrapper>
-        <StyledHeader>{playlist?.name}</StyledHeader>
-      </OverflowWrapper>
-      <PlaylistData>
-        {playlist?.year} • {playlist?.tracks.length} Songs,{" "}
-        {Math.ceil(totalDuration / 60)} min
-      </PlaylistData>
+      <HeaderContainer>
+        <StyledSubheader>Playlist</StyledSubheader>
+        <OverflowWrapper>
+          <StyledHeader>{playlist?.name}</StyledHeader>
+        </OverflowWrapper>
+        <PlaylistData>
+          {playlist?.year} • {playlist?.tracks.length} Songs,{" "}
+          {Math.ceil(totalDuration / 60)} min
+        </PlaylistData>
+      </HeaderContainer>
       <PlaylistList {...playlist} />
     </PlaylistSongsContainer>
   );

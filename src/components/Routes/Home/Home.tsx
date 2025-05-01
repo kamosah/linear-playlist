@@ -55,6 +55,15 @@ const PlaylistData = styled.h2`
   color: ${({ theme }) => theme.colors.muted};
 `;
 
+const HeaderContainer = styled.div`
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  background-clip: padding-box;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+`;
+
 export const Home = () => {
   const { playlists } = usePlaylist();
   const totalMinutes = playlists.reduce((total, playlist) => {
@@ -66,10 +75,12 @@ export const Home = () => {
   }, 0);
   return (
     <PlaylistsContainer>
-      <StyledHeader>Playlists</StyledHeader>
-      <PlaylistData>
-        {playlists.length} Playlists • {Math.ceil(totalMinutes / 60)} min
-      </PlaylistData>
+      <HeaderContainer>
+        <StyledHeader>Playlists</StyledHeader>
+        <PlaylistData>
+          {playlists.length} Playlists • {Math.ceil(totalMinutes / 60)} min
+        </PlaylistData>
+      </HeaderContainer>
       <PlaylistsGrid>
         {playlists.map((playlist) => (
           <PlaylistCard key={playlist.id} {...playlist} />

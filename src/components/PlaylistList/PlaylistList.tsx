@@ -49,9 +49,9 @@ const CenteredItem = styled.div`
 `;
 
 const PlaylistListContainer = styled.ul`
-  max-height: calc(100vh - ${DOCK_HEIGHT} - 14rem);
   overflow-y: auto;
   padding-bottom: 1rem;
+  padding-top: 1rem;
   width: 100%;
 `;
 

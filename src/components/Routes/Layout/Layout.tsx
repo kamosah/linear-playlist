@@ -1,5 +1,5 @@
 import { styled } from "styled-components";
-import { PlayerDock } from "../../PlayerDock";
+import { DOCK_HEIGHT, PlayerDock } from "../../PlayerDock";
 import { SidebarNavigation } from "../../Sidebar";
 import { Outlet } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -29,8 +29,10 @@ const PlayerContainer = styled(motion.div)`
   grid-area: player;
 `;
 
-const SidebarContainer = styled.div`
+const SidebarContainer = styled.div<{ $isPlaylistSelected: boolean }>`
   grid-area: sidebar;
+  height: ${({ $isPlaylistSelected }) =>
+    $isPlaylistSelected ? `calc(100vh - ${DOCK_HEIGHT})` : "100vh"};
 `;
 
 export const Layout = () => {
@@ -42,7 +44,7 @@ export const Layout = () => {
   const isPlaylistSelected = Boolean(player.playlist);
   return (
     <AppContainer $isPlaylistSelected={isPlaylistSelected}>
-      <SidebarContainer>
+      <SidebarContainer $isPlaylistSelected={isPlaylistSelected}>
         <SidebarNavigation />
       </SidebarContainer>
       <MainContainer>
