@@ -3,7 +3,6 @@ import type { Playlist, Track } from "../../types";
 import { formatTime } from "../../utils";
 import { styled, useTheme } from "styled-components";
 import { useState } from "react";
-import { DOCK_HEIGHT } from "../PlayerDock";
 import { useAudioPlayer, usePlaylist } from "../../hooks";
 import { GRAY_950, INDIGO_700 } from "../../styles";
 import { IconButton } from "../IconButton";
