@@ -30,20 +30,8 @@ This project includes music from the following albums:
 
 --------------------------------------------------------------------------------------------------------------
 
-### Note to Reviewer
-
-The audio player requires an initial click to load metadata before playback controls become fully functional. After this first interaction, all subsequent clicks will operate the audio player as expected. This two-step process is a known limitation in the current implementation that I plan to address in future iterations by enabling immediate playback without the initial click.
-
 🔗 Deployed App: <https://linear-playlist.vercel.app/>
 
 🔗 GitHub Repo: <https://github.com/linear-wt/media-player-exercise-kamosah>
 
 🔗 Personal GitHub Repo: <https://github.com/kamosah/linear-playlist>
-
-## Requirements
-
-- [x] play through a playlist of audio files
-- [x] display info on the currently playing track
-- [x] supporting basic functionality
-  - [x] play/pause
-  - [x] next track
