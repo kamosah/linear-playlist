@@ -9,7 +9,8 @@
     "lint": "eslint .",
     "preview": "nx vite:preview",
     "cypress:open": "cypress open",
-    "cypress:run": "cypress run"
+    "cypress:run": "cypress run",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.4",
