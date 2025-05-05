@@ -6,7 +6,7 @@ import { useAudioPlayer, usePlaylist } from "../../hooks";
 import React, { useState } from "react";
 import { Playlist } from "../../types";
 import { IconButton } from "../IconButton";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, Variants } from "framer-motion";
 
 const SidebarNavigationContainer = styled(motion.aside)`
   border-right: ${({ theme }) => `1px solid ${theme.colors.border}`};
@@ -18,8 +18,8 @@ const SidebarSection = styled.div`
   height: 100%;
   overflow-y: auto;
   padding-bottom: 1rem;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
   width: inherit;
 `;
 
@@ -99,9 +99,7 @@ const MenuButton = styled.button`
   color: ${({ theme }) => theme.colors.text};
   cursor: pointer;
   padding: 1rem;
-  width: 100%;
   display: flex;
-  justify-content: center;
   align-items: center;
 
   &:hover {
@@ -194,17 +192,17 @@ export const SidebarNavigation = () => {
   const player = useAudioPlayer();
   const [isCollapsed, setIsCollapsed] = useState(false);
 
-  const sidebarVariants = {
+  const sidebarVariants: Variants = {
     expanded: { width: "18rem" },
     collapsed: { width: "4.5rem" },
   };
 
-  const headerWrapperVariants = {
+  const headerWrapperVariants: Variants = {
     expanded: { flexDirection: "row", gap: "0" },
     collapsed: { flexDirection: "column", gap: "0.5rem" },
   };
 
-  const headerTextVariants = {
+  const headerTextVariants: Variants = {
     expanded: {
       fontSize: "1em",
       marginLeft: "0.5rem",
@@ -228,7 +226,7 @@ export const SidebarNavigation = () => {
       <SidebarSection>
         <SidebarHeadList>
           <MenuButton onClick={() => setIsCollapsed(!isCollapsed)}>
-            <Menu size={24} />
+            <Menu size="1em" />
           </MenuButton>
           <SidebarHeadItem>
             <Link to="/">
@@ -242,7 +240,7 @@ export const SidebarNavigation = () => {
                     display: "inline",
                     fontSize: isCollapsed ? "1.5rem" : "0.875rem",
                   }}
-                  size={isCollapsed ? "1.5em" : "1em"}
+                  size={isCollapsed ? "1.25em" : "1em"}
                 />
                 <StyledHeaderText
                   variants={headerTextVariants}
