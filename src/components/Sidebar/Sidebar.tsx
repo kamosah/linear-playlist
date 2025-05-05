@@ -225,7 +225,10 @@ export const SidebarNavigation = () => {
     >
       <SidebarSection>
         <SidebarHeadList>
-          <MenuButton onClick={() => setIsCollapsed(!isCollapsed)}>
+          <MenuButton
+            onClick={() => setIsCollapsed(!isCollapsed)}
+            aria-label="Toggle sidebar"
+          >
             <Menu size="1em" />
           </MenuButton>
           <SidebarHeadItem>
